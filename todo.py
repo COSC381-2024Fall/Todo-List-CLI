@@ -2,6 +2,10 @@ class TodoList:
     def __init__(self):
         self.tasks = []
 
+    def get_total_tasks(self):
+        """Returns the total number of tasks in the to-do list."""
+        return len(self.tasks)
+   
     def add_task(self, task):
         """Adds a new task to the list."""
         self.tasks.append(task)
@@ -52,7 +56,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Show total number of tasks")  # New option
+    print("6. Quit")
 
 
 def main():
@@ -84,8 +89,13 @@ def main():
                 todo_list.add_task_date(task_number, due_date)
             except ValueError:
                 print("Invalid input! Please enter a valid number.")
-
+        
         elif choice == '5':
+            # New option to show total tasks
+            total_tasks = todo_list.get_total_tasks()
+            print(f'Total number of tasks: {total_tasks}')
+        
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
