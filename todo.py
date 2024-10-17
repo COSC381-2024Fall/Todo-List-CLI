@@ -32,6 +32,19 @@ class TodoList:
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
 
+    def update_task(self, task_number, updated_message):
+        """Change the description of a task"""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                self.tasks[task_number - 1] = updated_message
+            else:
+                due_date = task[1]
+                self.tasks[task_number - 1] = (updated_message, due_date)
+
+
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
@@ -47,7 +60,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Edit task description")
+    print("6. Quit")
 
 
 def main():
@@ -72,14 +86,18 @@ def main():
                 print("Invalid input! Please enter a number.")
 
         elif choice == '4':
-            try:
-                task_number = int(input("Enter task number to update: "))
-                due_date = input("Enter a due date for the task: ")
-                todo_list.add_task_date(task_number, due_date)
-            except ValueError:
-                print("Invalid input! Please enter a number.")
+            task_number = int(input("Enter task number to update: "))
+            due_date = input("Enter a due date for the task: ")
+            todo_list.add_task_date(task_number, due_date)
 
         elif choice == '5':
+            try:
+                task_number = int(input("Enter task number to update: "))
+                desc = input("Enter new task description: ")
+                todo_list.update_task(task_number, desc)
+            except ValueError:
+                print("Invalid input! Please enter a number.")    
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
