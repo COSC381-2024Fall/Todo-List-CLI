@@ -19,6 +19,16 @@ class TodoList:
 
     def list_tasks_alphabetic(self):
         """Lists all tasks alphabetically in the to-do list."""
+        if not self.tasks:
+            print("No tasks in the list!")
+        else:
+            sorted_tasks = []
+            for idx, task in enumerate(self.tasks, start=1):
+                item = (idx, task)
+                sorted_tasks.append(item)
+            sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1])
+            for idx, task in sorted_tasks:
+                print(f'{idx}. {task}')
 
     def add_task_date(self, task_number, due_date):
         """Add a due date to a task."""
