@@ -21,21 +21,20 @@ class TodoList:
                     print(f'{idx}. {task}')
 
     def add_task_date(self, task_number, due_date):
-        """Adds or updates a due date for a specific task."""
+        """Add a due date to a task."""
         if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number! Please enter a valid number.")
+            print("Invalid task number!")
         else:
             task = self.tasks[task_number - 1]
-            if isinstance(task, str):
-                # Task has no due date, so add one
-                self.tasks[task_number - 1] = (task, due_date)
-            else:
-                # Task already has a due date, so update it
-                task_name, _ = task
-                self.tasks[task_number - 1] = (task_name, due_date)
-            
-            print(f'Task updated: {self.tasks[task_number - 1]}')
-
+        if type(task) is str:
+            self.tasks[task_number - 1] = (task, due_date)
+            self.tasks[task_number - 1] = f"{due_date}: {task}" 
+        else:
+            task_name = task[0]
+            self.tasks[task_number - 1] = f"{due_date}: {task_name}" 
+        
+        print(f'Task updated: {self.tasks[task_number - 1]}')
+        
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
