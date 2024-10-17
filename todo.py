@@ -17,6 +17,21 @@ class TodoList:
             for idx, task in enumerate(self.tasks, start=1):
                 print(f'{idx}. {task}')
 
+    def add_task_date(self, task_number, due_date):
+        """Add a due date to a task."""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                self.tasks[task_number - 1] = (task, due_date)
+            else:
+                task_name = task[0]
+                self.tasks[task_number - 1] = (task_name, due_date)
+            
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
+
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
@@ -31,7 +46,8 @@ def print_menu():
     print("1. Add task")
     print("2. List tasks")
     print("3. Delete task")
-    print("4. Quit")
+    print("4. Add/Update a due date to a task")
+    print("5. Quit")
 
 
 def main():
@@ -39,7 +55,7 @@ def main():
 
     while True:
         print_menu()
-        choice = input("\nEnter your choice (1-4): ")
+        choice = input("\nEnter your choice (1-5): ")
 
         if choice == '1':
             task = input("Enter the task: ")
@@ -56,6 +72,14 @@ def main():
                 print("Invalid input! Please enter a number.")
 
         elif choice == '4':
+            try:
+                task_number = int(input("Enter task number to update: "))
+                due_date = input("Enter a due date for the task: ")
+                todo_list.add_task_date(task_number, due_date)
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+
+        elif choice == '5':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
