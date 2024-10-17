@@ -63,7 +63,7 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. change task")
+    print("5. Change task name")
     print("6. Quit")
 
 
@@ -98,7 +98,7 @@ def main():
 
         elif choice == '5':
             task = int(input("Enter task number to update: "))
-            new_task=input("what would you like to update name to ")
+            new_task=input("What would you like to update name to: ")
             todo_list.change_task(task,new_task)
             
         
