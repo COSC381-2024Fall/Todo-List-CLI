@@ -1,5 +1,5 @@
 # todo.py
-
+    
 class TodoList:
     def __init__(self):
         self.tasks = []
@@ -31,6 +31,21 @@ class TodoList:
             
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
+    def add_tag(self, task_number, tag):
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                due_date = "No Date Assigned"
+                self.tasks[task_number - 1] = (task, due_date, tag)
+            else:
+                due_date = self.tasks[task_number-1][1]
+                task_name = task[0]
+                self.tasks[task_number - 1] = (task_name, due_date, tag)
+
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
 
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
@@ -40,14 +55,14 @@ class TodoList:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
 
-
 def print_menu():
     print("\nTo-Do List CLI App")
     print("1. Add task")
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Add/Update a tag to a task")
+    print("6. Quit")
 
 
 def main():
@@ -79,7 +94,13 @@ def main():
             except ValueError:
                 print("Invalid input! Please enter a number.")
 
+        #   Add/Update a tag
         elif choice == '5':
+            task_number = int(input("Enter task number to update: "))
+            tag = input("Enter a tag for the task: ")
+            todo_list.add_tag(task_number, tag)
+
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
