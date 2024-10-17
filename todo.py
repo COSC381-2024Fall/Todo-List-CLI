@@ -39,6 +39,17 @@ class TodoList:
         else:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
+    
+    def checkoff_task(self,task_number):
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                self.tasks[task_number - 1] = (task, "completed")
+            else:
+                task_name = task[0]
+                self.tasks[task_number - 1] = (task_name, "completed")
 
 
 def print_menu():
@@ -47,7 +58,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5  Mark Task Completed")
+    print("6. Quit")
 
 
 def main():
@@ -55,7 +67,7 @@ def main():
 
     while True:
         print_menu()
-        choice = input("\nEnter your choice (1-5): ")
+        choice = input("\nEnter your choice (1-6): ")
 
         if choice == '1':
             task = input("Enter the task: ")
@@ -80,6 +92,16 @@ def main():
                 print("Invalid input! Please enter a number.")
 
         elif choice == '5':
+            try:
+                task_number = int(input("Enter task number to Mark Completed: "))
+                todo_list.checkoff_task(task_number)
+
+
+
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
