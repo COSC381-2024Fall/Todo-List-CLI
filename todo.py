@@ -9,13 +9,16 @@ class TodoList:
         self.tasks.append(task)
         print(f'Task added: {task}')
 
-    def list_tasks(self):
-        """Lists all tasks in the to-do list."""
+    def list_tasks_numeric(self):
+        """Lists all tasks numerically in the to-do list."""
         if not self.tasks:
             print("No tasks in the list!")
         else:
             for idx, task in enumerate(self.tasks, start=1):
                 print(f'{idx}. {task}')
+
+    def list_tasks_alphabetic(self):
+        """Lists all tasks alphabetically in the to-do list."""
 
     def add_task_date(self, task_number, due_date):
         """Add a due date to a task."""
@@ -44,10 +47,11 @@ class TodoList:
 def print_menu():
     print("\nTo-Do List CLI App")
     print("1. Add task")
-    print("2. List tasks")
-    print("3. Delete task")
-    print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("2. List tasks ordered numerically")
+    print("3. List tasks ordered alphabetically")
+    print("4. Delete task")
+    print("5. Add/Update a due date to a task")
+    print("6. Quit")
 
 
 def main():
@@ -62,16 +66,19 @@ def main():
             todo_list.add_task(task)
 
         elif choice == '2':
-            todo_list.list_tasks()
-
+            todo_list.list_tasks_numeric()
+        
         elif choice == '3':
+            todo_list.list_tasks_alphabetic()
+
+        elif choice == '4':
             try:
                 task_number = int(input("Enter task number to delete: "))
                 todo_list.delete_task(task_number)
             except ValueError:
                 print("Invalid input! Please enter a number.")
 
-        elif choice == '4':
+        elif choice == '5':
             try:
                 task_number = int(input("Enter task number to update: "))
                 due_date = input("Enter a due date for the task: ")
@@ -79,7 +86,7 @@ def main():
             except ValueError:
                 print("Invalid input! Please enter a number.")
 
-        elif choice == '5':
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
