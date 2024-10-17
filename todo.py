@@ -62,7 +62,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Remove a due date to a task")
+    print("6. Quit")
 
 
 def main():
