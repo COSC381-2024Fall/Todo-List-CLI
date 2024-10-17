@@ -8,38 +8,47 @@ class TodoList:
         print(f'Task added: {task}')
 
     def list_tasks(self):
-        """Lists all tasks in the to-do list, including due dates if available."""
+        """Lists all tasks in the to-do list."""
         if not self.tasks:
             print("No tasks in the list!")
         else:
-            print("\nCurrent To-Do List:")
             for idx, task in enumerate(self.tasks, start=1):
-                if isinstance(task, tuple):  # Task with due date
-                    task_name, due_date = task
-                    print(f'{idx}. {task_name} (Due: {due_date})')
-                else:  # Task without due date
-                    print(f'{idx}. {task}')
+                print(f'{idx}. {task}')
 
     def add_task_date(self, task_number, due_date):
-        """Adds or updates a due date for a specific task."""
+        """Add a due date to a task."""
         if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number! Please enter a valid number.")
+            print("Invalid task number!")
         else:
             task = self.tasks[task_number - 1]
-            if isinstance(task, str):
-                # Task has no due date, so add one
+            if type(task) is str:
                 self.tasks[task_number - 1] = (task, due_date)
             else:
-                # Task already has a due date, so update it
-                task_name, _ = task
+                task_name = task[0]
                 self.tasks[task_number - 1] = (task_name, due_date)
             
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
+    def add_tag(self, task_number, tag):
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                due_date = "No Date Assigned"
+                self.tasks[task_number - 1] = (task, due_date, tag)
+            else:
+                due_date = self.tasks[task_number-1][1]
+                task_name = task[0]
+                self.tasks[task_number - 1] = (task_name, due_date, tag)
+
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
+
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number! Please enter a valid number.")
+            print("Invalid task number!")
         else:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
@@ -52,7 +61,9 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Add/Update a tag to a task")
+    print("6. Delete all tasks")
+    print("7. Quit")
 
 
 def main():
@@ -60,17 +71,21 @@ def main():
     todo_list = TodoList()
 
     while True:
-        print_menu()
         try:
-            choice = input("\nEnter your choice (1-5): ")
-
+            print_menu()
+            choice = input("\nEnter your choice (1-6): ")
 
             if choice == '1':
-                task = input("Enter the task: ")
-                todo_list.add_task(task)
+                    task = input("Enter the task: ")
+                    dateBool = input("Would you like to add a due date? 1: Yes 2: No -- ")
+                    if int(dateBool) == 1:
+                        due_date = input("Enter the due date: ")
+                    else:
+                        due_date = ""
+                    todo_list.add_task(task, due_date)
 
             elif choice == '2':
-                todo_list.list_tasks()
+                    todo_list.list_tasks()
 
             elif choice == '3':
                     task_number = int(input("Enter task number to delete: "))
@@ -79,14 +94,28 @@ def main():
             elif choice == '4':
                     task_number = int(input("Enter task number to update: "))
                     due_date = input("Enter a due date for the task: ")
+                    task_number = int(input("Enter task number to add/update a due date: "))
+                    due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                     todo_list.add_task_date(task_number, due_date)
-
+                    
+            #   Add/Update a tag
             elif choice == '5':
+                task_number = int(input("Enter task number to update: "))
+                tag = input("Enter a tag for the task: ")
+                todo_list.add_tag(task_number, tag)
+
+
+            elif choice == '6':
+                todo_list.delete_all_tasks()
+
+            elif choice == '7':
                 print("Exiting To-Do List CLI App. Goodbye!")
                 break
-        
+
+            else:
+                print("Invalid choice! Please choose a valid option.")
         except ValueError:
-            print("Invalid input! Please choose an existing task number. This is the created try except")
+            print("Invalid input! Please enter a number.")
 
 
 if __name__ == '__main__':
