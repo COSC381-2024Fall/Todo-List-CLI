@@ -40,6 +40,22 @@ class TodoList:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
 
+    
+    def change_task(self, task_number,new_task):
+        #checking if task actually exists
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+
+            if type(task) is str:
+                self.tasks[task_number - 1] = (new_task)
+            else:
+                task_name = task[0]
+                self.tasks[task_number - 1] = (new_task)
+            
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
 
 def print_menu():
     print("\nTo-Do List CLI App")
@@ -47,7 +63,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. change task")
+    print("6. Quit")
 
 
 def main():
@@ -55,7 +72,7 @@ def main():
 
     while True:
         print_menu()
-        choice = input("\nEnter your choice (1-5): ")
+        choice = input("\nEnter your choice (1-6): ")
 
         if choice == '1':
             task = input("Enter the task: ")
@@ -80,12 +97,17 @@ def main():
                 print("Invalid input! Please enter a number.")
 
         elif choice == '5':
+            task = int(input("Enter task number to update: "))
+            new_task=input("what would you like to update name to ")
+            todo_list.change_task(task,new_task)
+            
+        
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
         else:
             print("Invalid choice! Please choose a valid option.")
-
 
 if __name__ == '__main__':
     main()
