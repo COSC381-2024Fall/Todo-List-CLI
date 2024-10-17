@@ -5,9 +5,24 @@ class TodoList:
         self.tasks = []
 
     def add_task(self, task):
-        """Adds a new task to the list."""
-        self.tasks.append(task)
-        print(f'Task added: {task}')
+        """Adds a new task to the list if it doesn't already exist."""
+        if self.task_exists(task):
+            print(f"Task '{task}' already exists in the list! Cannot add duplicate tasks.")
+        else:
+            self.tasks.append(task)
+            print(f'Task added: {task}')
+
+    def task_exists(self, task):
+        """Checks if a task already exists (case insensitive)."""
+        for t in self.tasks:
+            # Handling tuple case when task has a due date (e.g., (task_name, due_date))
+            if (isinstance(t, tuple)):
+                if t[0].lower() == task.lower():
+                    return True
+            else: 
+                if t.lower() == task.lower():
+                    return True
+        return False 
 
     def list_tasks(self):
         """Lists all tasks in the to-do list."""
