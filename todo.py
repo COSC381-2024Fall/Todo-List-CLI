@@ -1,5 +1,3 @@
-# todo.py
-
 class TodoList:
     def __init__(self):
         self.tasks = []
@@ -10,38 +8,45 @@ class TodoList:
         print(f'Task added: {task}')
 
     def list_tasks(self):
-        """Lists all tasks in the to-do list."""
+        """Lists all tasks in the to-do list, including due dates if available."""
         if not self.tasks:
             print("No tasks in the list!")
         else:
+            print("\nCurrent To-Do List:")
             for idx, task in enumerate(self.tasks, start=1):
-                print(f'{idx}. {task}')
+                if isinstance(task, tuple):  # Task with due date
+                    task_name, due_date = task
+                    print(f'{idx}. {task_name} (Due: {due_date})')
+                else:  # Task without due date
+                    print(f'{idx}. {task}')
 
     def add_task_date(self, task_number, due_date):
-        """Add a due date to a task."""
+        """Adds or updates a due date for a specific task."""
         if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number!")
+            print("Invalid task number! Please enter a valid number.")
         else:
             task = self.tasks[task_number - 1]
-            if type(task) is str:
+            if isinstance(task, str):
+                # Task has no due date, so add one
                 self.tasks[task_number - 1] = (task, due_date)
             else:
-                task_name = task[0]
+                # Task already has a due date, so update it
+                task_name, _ = task
                 self.tasks[task_number - 1] = (task_name, due_date)
             
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
-
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number!")
+            print("Invalid task number! Please enter a valid number.")
         else:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
 
 
 def print_menu():
+    """Prints the menu of options for the user."""
     print("\nTo-Do List CLI App")
     print("1. Add task")
     print("2. List tasks")
@@ -51,6 +56,7 @@ def print_menu():
 
 
 def main():
+    """Main function that runs the To-Do List CLI."""
     todo_list = TodoList()
 
     while True:
@@ -71,17 +77,19 @@ def main():
                 todo_list.delete_task(task_number)
                 
             except ValueError:
-                print("Invalid input! Please enter a number.")
+                print("Invalid input! Please enter a valid number.")
 
         elif choice == '4':
             try:
                 todo_list.list_tasks()
                 task_number = int(input("Enter task number to update: "))
                 due_date = input("Enter a due date for the task: ")
+                task_number = int(input("Enter task number to add/update a due date: "))
+                due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
                 
             except ValueError:
-                print("Invalid input! Please enter a number.")
+                print("Invalid input! Please enter a valid number.")
 
         elif choice == '5':
             print("Exiting To-Do List CLI App. Goodbye!")
