@@ -63,7 +63,9 @@ def main():
             todo_list.add_task(task)
 
         elif choice == '2':
-            todo_list.list_tasks()
+            todo_list.list_tasks() # lists all tasks, this will be invoked in other methods 
+            # to also list tasks when something is updated/deleted to show the methods
+            # worked correctly.
 
         elif choice == '3':
             try:
