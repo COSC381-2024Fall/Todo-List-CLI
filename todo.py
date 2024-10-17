@@ -4,10 +4,15 @@ class TodoList:
     def __init__(self):
         self.tasks = []
 
-    def add_task(self, task):
+    def add_task(self, task, due_date):
         """Adds a new task to the list."""
         self.tasks.append(task)
         print(f'Task added: {task}')
+        if type(task) is str:
+            self.tasks[len(self.tasks) - 1] = (task, due_date)
+        else:
+            task_name = task[0]
+            self.tasks[len(self.tasks) - 1] = (task_name, due_date)
 
     def list_tasks(self):
         """Lists all tasks in the to-do list."""
@@ -59,7 +64,8 @@ def main():
 
         if choice == '1':
             task = input("Enter the task: ")
-            todo_list.add_task(task)
+            due_date = input("Enter the due date: ")
+            todo_list.add_task(task, due_date)
 
         elif choice == '2':
             todo_list.list_tasks()
