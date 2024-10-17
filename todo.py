@@ -5,7 +5,9 @@ class TodoList:
     def add_task(self, task):
         """Adds a new task to the list."""
         self.tasks.append(task)
-        print(f'Task added: {task}')
+        #added task number to initial print after adding a task
+        print(f'Task added: {task}   Task Number:', len(self.tasks))
+        print(f'Task', len(self.tasks), 'added: {task}')
 
     def list_tasks(self):
         """Lists all tasks in the to-do list, including due dates if available."""
