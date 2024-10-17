@@ -50,6 +50,7 @@ class TodoList:
             else:
                 task_name = task[0]
                 self.tasks[task_number - 1] = (task_name, "completed")
+            
 
 
 def print_menu():
