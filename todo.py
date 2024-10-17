@@ -40,6 +40,21 @@ class TodoList:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
 
+    def remove_due_date(self, tast_number):
+        """Removes the due date from a task."""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is tuple:  # Check if the task has a due date (stored as a tuple)
+               task_name = task[0]
+               self.tasks[task_number - 1] = task_name  # Remove due date by converting it back to a string
+               print(f'Due date removed from task: {task_name}')
+            else:
+                print("This task doesn't have a due date.")
+
+
+
 
 def print_menu():
     print("\nTo-Do List CLI App")
