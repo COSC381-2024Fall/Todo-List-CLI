@@ -72,16 +72,22 @@ def main():
 
         elif choice == '3':
             try:
+                todo_list.list_tasks()
                 task_number = int(input("Enter task number to delete: "))
                 todo_list.delete_task(task_number)
+                
             except ValueError:
                 print("Invalid input! Please enter a valid number.")
 
         elif choice == '4':
             try:
+                todo_list.list_tasks()
+                task_number = int(input("Enter task number to update: "))
+                due_date = input("Enter a due date for the task: ")
                 task_number = int(input("Enter task number to add/update a due date: "))
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
+                
             except ValueError:
                 print("Invalid input! Please enter a valid number.")
 
