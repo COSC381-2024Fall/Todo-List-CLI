@@ -41,13 +41,16 @@ class TodoList:
             print(f'Task removed: {removed_task}')
     
     def checkoff_task(self,task_number):
-        if task_number <= 0 or task_number > len(self.tasks):
+        """Mark the task completed"""
+        # Check if the provided task number is valid
+        if task_number <= 0 or task_number > len(self.tasks): 
             print("Invalid task number!")
         else:
             task = self.tasks[task_number - 1]
             if type(task) is str:
-                self.tasks[task_number - 1] = (task, "completed")
+                self.tasks[task_number - 1] = (task, "completed") # Replace the task with a tuple (task name, "completed") to mark it as completed
             else:
+                # If the task already has a due date, preserve the task name
                 task_name = task[0]
                 self.tasks[task_number - 1] = (task_name, "completed")
             
