@@ -4,10 +4,9 @@ class TodoList:
     def __init__(self):
         self.tasks = []
 
-    def add_task(self, task):
+    def add_task(self, task, time):
         """Adds a new task to the list."""
-        print("what is the estimated fix time for this task?")
-        time = input()
+      
         self.tasks.append((task+": Estimated fix time: "+ time))
         print(f'Task added: {task}')
 
@@ -61,8 +60,10 @@ def main():
 
         if choice == '1':
             task = input("Enter the task: ")
-            
-            todo_list.add_task(task)
+             
+            print("what is the estimated fix time for this task?")
+            time = input()
+            todo_list.add_task(task,time)
 
         elif choice == '2':
             todo_list.list_tasks()
