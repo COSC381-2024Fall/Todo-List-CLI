@@ -60,7 +60,7 @@ def main():
 
     while True:
         print_menu()
-        choice = input("\nEnter your choice (1-5): ")
+        choice = input("\nEnter your choice (1-6): ")
 
         if choice == '1':
             task = input("Enter the task: ")
