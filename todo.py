@@ -40,7 +40,7 @@ class TodoList:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
 
-    def remove_due_date(self, tast_number):
+    def remove_due_date(self, task_number):
         """Removes the due date from a task."""
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
@@ -94,8 +94,14 @@ def main():
                 todo_list.add_task_date(task_number, due_date)
             except ValueError:
                 print("Invalid input! Please enter a number.")
-
         elif choice == '5':
+            try:
+                task_number = int(input("Enter task number to delete due_date: "))
+                todo_list.remove_due_date(task_number)
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
