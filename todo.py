@@ -1,3 +1,4 @@
+
 # todo.py
 
 class TodoList:
@@ -57,7 +58,11 @@ class TodoList:
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
 
+from TodoList import TodoList
+
+
 def print_menu():
+    """Prints the menu of options for the user."""
     print("\nTo-Do List CLI App")
     print("1. Add task")
     print("2. List tasks")
@@ -68,33 +73,37 @@ def print_menu():
 
 
 def main():
+    """Main function that runs the To-Do List CLI."""
     todo_list = TodoList()
 
     while True:
+
         print_menu()
         choice = input("\nEnter your choice (1-6): ")
 
-        if choice == '1':
-            task = input("Enter the task: ")
-            todo_list.add_task(task)
+        try: 
+            print_menu()
+            choice = input("\nEnter your choice (1-5): ")
 
-        elif choice == '2':
-            todo_list.list_tasks()
 
-        elif choice == '3':
-            try:
+            if choice == '1':
+                task = input("Enter the task: ")
+                todo_list.add_task(task)
+
+            elif choice == '2':
+                todo_list.list_tasks()
+
+            elif choice == '3':
                 task_number = int(input("Enter task number to delete: "))
                 todo_list.delete_task(task_number)
-            except ValueError:
-                print("Invalid input! Please enter a number.")
 
-        elif choice == '4':
-            try:
+            elif choice == '4':
                 task_number = int(input("Enter task number to update: "))
                 due_date = input("Enter a due date for the task: ")
+                task_number = int(input("Enter task number to add/update a due date: "))
+                due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
-            except ValueError:
-                print("Invalid input! Please enter a number.")
+
 
         elif choice == '5':
             task = int(input("Enter task number to update: "))
@@ -106,8 +115,16 @@ def main():
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
-        else:
-            print("Invalid choice! Please choose a valid option.")
+            elif choice == '5':
+                print("Exiting To-Do List CLI App. Goodbye!")
+                break
+
+            else:
+                print("Invalid choice! Please choose a valid option.")
+
+
+        except ValueError:
+            print("Invalid input! Please enter a number.")
 
 if __name__ == '__main__':
     main()
