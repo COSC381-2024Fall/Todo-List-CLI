@@ -96,9 +96,6 @@ def main():
             try:
                 task_number = int(input("Enter task number to Mark Completed: "))
                 todo_list.checkoff_task(task_number)
-
-
-
             except ValueError:
                 print("Invalid input! Please enter a number.")
 
