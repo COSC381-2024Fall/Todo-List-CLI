@@ -1,3 +1,53 @@
+
+
+# todo.py
+
+class TodoList:
+    def __init__(self):
+        self.tasks = []
+
+    def add_task(self, task):
+        """Adds a new task to the list."""
+        self.tasks.append(task)
+        print(f'Task added: {task}')
+
+    def list_tasks(self):
+        """Lists all tasks in the to-do list."""
+        if not self.tasks:
+            print("No tasks in the list!")
+        else:
+            for idx, task in enumerate(self.tasks, start=1):
+                print(f'{idx}. {task}')
+
+    def add_task_date(self, task_number, due_date):
+        """Add a due date to a task."""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                self.tasks[task_number - 1] = (task, due_date)
+            else:
+                task_name = task[0]
+                self.tasks[task_number - 1] = (task_name, due_date)
+            
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
+
+    def delete_task(self, task_number):
+        """Deletes a task by its number in the list."""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            removed_task = self.tasks.pop(task_number - 1)
+            print(f'Task removed: {removed_task}')
+
+    def delete_all_tasks(self):
+        self.tasks = []
+        print("All tasks deleted.")
+
+
+from TodoList import TodoList
     
 class TodoList:
     def __init__(self):
@@ -60,6 +110,7 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
+    print("5. Delete all tasks")
     print("5. Add/Update a tag to a task")
     print("6. Quit")
 
@@ -69,9 +120,14 @@ def main():
     todo_list = TodoList()
 
     while True:
+
+        print_menu()
+        choice = input("\nEnter your choice (1-6): ")
+
         try: 
             print_menu()
             choice = input("\nEnter your choice (1-5): ")
+
 
             if choice == '1':
                 task = input("Enter the task: ")
@@ -97,6 +153,20 @@ def main():
               tag = input("Enter a tag for the task: ")
               todo_list.add_tag(task_number, tag)
 
+
+        elif choice == '5':
+            todo_list.delete_all_tasks()
+
+        elif choice == '6':
+            print("Exiting To-Do List CLI App. Goodbye!")
+            break
+
+            elif choice == '5':
+                print("Exiting To-Do List CLI App. Goodbye!")
+                break
+
+            else:
+                print("Invalid choice! Please choose a valid option.")
           elif choice == '6':
               print("Exiting To-Do List CLI App. Goodbye!")
               break
