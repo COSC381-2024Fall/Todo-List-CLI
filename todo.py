@@ -64,7 +64,11 @@ def main():
 
         if choice == '1':
             task = input("Enter the task: ")
-            due_date = input("Enter the due date: ")
+            dateBool = input("Would you like to add a due date? 1: Yes 2: No -- ")
+            if int(dateBool) == 1:
+                due_date = input("Enter the due date: ")
+            else:
+                due_date = ""
             todo_list.add_task(task, due_date)
 
         elif choice == '2':
