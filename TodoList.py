@@ -53,7 +53,20 @@ class TodoList:
         else:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
-            
+
+    def update_task(self, task_number, updated_message):
+        """Change the description of a task"""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                self.tasks[task_number - 1] = updated_message
+            else:
+                due_date = task[1]
+                self.tasks[task_number - 1] = (updated_message, due_date)
+            print("Task updated successfully!")
+
     def delete_all_tasks(self):
         self.tasks = []
         print("All tasks deleted.")

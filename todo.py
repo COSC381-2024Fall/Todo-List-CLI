@@ -10,7 +10,8 @@ def print_menu():
     print("4. Add/Update a due date to a task")
     print("5. Add/Update a tag to a task")
     print("6. Delete all tasks")
-    print("7. Quit")
+    print("7. Edit task description")
+    print("8. Quit")
 
 
 def main():
@@ -20,7 +21,7 @@ def main():
     while True:
         try: 
             print_menu()
-            choice = input("\nEnter your choice (1-7): ")
+            choice = input("\nEnter your choice (1-8): ")
 
             if choice == '1':
                     task = input("Enter the task: ")
@@ -39,8 +40,6 @@ def main():
                 todo_list.delete_task(task_number)
 
             elif choice == '4':
-                task_number = int(input("Enter task number to update: "))
-                due_date = input("Enter a due date for the task: ")
                 task_number = int(input("Enter task number to add/update a due date: "))
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
@@ -55,6 +54,14 @@ def main():
                 todo_list.delete_all_tasks()
 
             elif choice == '7':
+                try:
+                    task_number = int(input("Enter task number to update: "))
+                    desc = input("Enter new task description: ")
+                    todo_list.update_task(task_number, desc)
+                except ValueError:
+                    print("Invalid input! Please enter a number.")    
+
+            elif choice == '8':
                 print("Exiting To-Do List CLI App. Goodbye!")
                 break
 
