@@ -40,6 +40,10 @@ class TodoList:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
 
+    def delete_all_tasks(self):
+        self.tasks = []
+        print("All tasks deleted.")
+
 
 def print_menu():
     print("\nTo-Do List CLI App")
@@ -47,7 +51,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Delete all tasks")
+    print("6. Quit")
 
 
 def main():
@@ -80,6 +85,9 @@ def main():
                 print("Invalid input! Please enter a number.")
 
         elif choice == '5':
+            todo_list.delete_all_tasks()
+
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
