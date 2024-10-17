@@ -17,7 +17,7 @@ This project is a command-line to-do list manager, where users can add, view, an
 ### Set up your repository
 1. Clone the repository to your local machine
 2. Navigate to the project directory (using `cd` in the terminal)
-3. Run the project: `python todo.py`
+3. Run the project: `python3 todo.py`
 
 ### Usage
 Once the app is running, you will see a simple menu with the following options:
