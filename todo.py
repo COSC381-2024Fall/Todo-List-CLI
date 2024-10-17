@@ -1,6 +1,7 @@
 from TodoList import TodoList
 
 def print_menu():
+    """Prints the menu of options for the user."""
     print("\nTo-Do List CLI App")
     print("1. Add task")
     print("2. List tasks")
@@ -10,6 +11,7 @@ def print_menu():
 
 
 def main():
+    """Main function that runs the To-Do List CLI."""
     todo_list = TodoList()
 
     while True:
@@ -31,6 +33,8 @@ def main():
             elif choice == '4':
                 task_number = int(input("Enter task number to update: "))
                 due_date = input("Enter a due date for the task: ")
+                task_number = int(input("Enter task number to add/update a due date: "))
+                due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
 
             elif choice == '5':
