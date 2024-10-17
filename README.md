@@ -17,7 +17,7 @@ This project is a command-line to-do list manager, where users can add, view, an
 ### Set up your repository
 1. Clone the repository to your local machine
 2. Navigate to the project directory (using `cd` in the terminal)
-3. Run the project: `python todo.py`
+3. Run the project: `python3 todo.py`
 
 ### Usage
 Once the app is running, you will see a simple menu with the following options:
@@ -25,7 +25,8 @@ Once the app is running, you will see a simple menu with the following options:
 1. Add task: Adds a new task to your to-do list.
 2. List tasks: Displays all the tasks you have added.
 3. Delete task: Deletes a task by its number from the list.
-4. Quit: Exits the app.
+4. Add/Update a due date to a task: Add or update a due date for a task.
+5. Quit: Exits the app.
 
 ## Contributing
 Please contribute by fixing bugs, adding features, or improving documentation! Make sure to follow **the GitHub Flow** in the handout!
