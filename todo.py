@@ -61,36 +61,32 @@ def main():
 
     while True:
         print_menu()
-        choice = input("\nEnter your choice (1-5): ")
+        try:
+            choice = input("\nEnter your choice (1-5): ")
 
-        if choice == '1':
-            task = input("Enter the task: ")
-            todo_list.add_task(task)
 
-        elif choice == '2':
-            todo_list.list_tasks()
+            if choice == '1':
+                task = input("Enter the task: ")
+                todo_list.add_task(task)
 
-        elif choice == '3':
-            try:
-                task_number = int(input("Enter task number to delete: "))
-                todo_list.delete_task(task_number)
-            except ValueError:
-                print("Invalid input! Please enter a valid number.")
+            elif choice == '2':
+                todo_list.list_tasks()
 
-        elif choice == '4':
-            try:
-                task_number = int(input("Enter task number to add/update a due date: "))
-                due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
-                todo_list.add_task_date(task_number, due_date)
-            except ValueError:
-                print("Invalid input! Please enter a valid number.")
+            elif choice == '3':
+                    task_number = int(input("Enter task number to delete: "))
+                    todo_list.delete_task(task_number)
 
-        elif choice == '5':
-            print("Exiting To-Do List CLI App. Goodbye!")
-            break
+            elif choice == '4':
+                    task_number = int(input("Enter task number to update: "))
+                    due_date = input("Enter a due date for the task: ")
+                    todo_list.add_task_date(task_number, due_date)
 
-        else:
-            print("Invalid choice! Please choose a valid option.")
+            elif choice == '5':
+                print("Exiting To-Do List CLI App. Goodbye!")
+                break
+        
+        except ValueError:
+            print("Invalid input! Please choose an existing task number. This is the created try except")
 
 
 if __name__ == '__main__':
