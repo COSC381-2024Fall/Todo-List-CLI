@@ -100,7 +100,7 @@ def print_menu():
     print("6. Delete all tasks")
     print("7. Edit task description")
     print("8. Show total number of tasks")  # New option
-    print("6. Quit")
+    print("9. Quit")
 
 
 def main():
@@ -110,7 +110,7 @@ def main():
     while True:
         try: 
             print_menu()
-            choice = input("\nEnter your choice (1-8): ")
+            choice = input("\nEnter your choice (1-9): ")
 
             if choice == '1':
                     task = input("Enter the task: ")
@@ -157,15 +157,15 @@ def main():
 
             elif choice == '8':
                 # New option to show total tasks
-            total_tasks = todo_list.get_total_tasks()
-            print(f'Total number of tasks: {total_tasks}')
+                total_tasks = todo_list.get_total_tasks()
+                print(f'Total number of tasks: {total_tasks}')
         
-        elif choice == '6':
-            print("Exiting To-Do List CLI App. Goodbye!")
+            elif choice == '9':
+                print("Exiting To-Do List CLI App. Goodbye!")
                 break
 
             else:
-              print("Invalid choice! Please choose a valid option.")
+                print("Invalid choice! Please choose a valid option.")
 
         except ValueError:
             print("Invalid input! Please enter a number.")
