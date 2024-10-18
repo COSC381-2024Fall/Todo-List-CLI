@@ -3,9 +3,31 @@ class TodoList:
         self.tasks = []
 
     def add_task(self, task):
-        """Adds a new task to the list."""
-        self.tasks.append(task)
-        print(f'Task added: {task}')
+        """Adds a new task to the list if it doesn't already exist."""
+        task = task.strip()  # Remove any leading/trailing whitespace
+        task_number = self.task_exists(task)
+        if task_number:
+            print(f"Task '{task}' already exists in the list at position {task_number}. Cannot add duplicate tasks.")
+        else:
+            self.tasks.append(task)
+            print(f'Task added: {task}')
+
+    def task_exists(self, task):
+        """Checks if a task already exists (case insensitive, ignores trailing whitespace). 
+        Returns the task number if it exists, or None otherwise."""
+        task = task.strip()  # Ensure we ignore leading/trailing whitespace
+
+        for idx, t in enumerate(self.tasks):
+            # If task is a tuple, compare only the task name (ignores due date)
+            if isinstance(t, tuple):
+                task_name = t[0].strip().lower()
+                if task_name == task.lower():
+                    return idx + 1  # Return the 1-based index of the task
+            else:
+                if t.strip().lower() == task.lower():
+                    return idx + 1  # Return the 1-based index of the task
+
+        return None  # Task does not exist
 
     def list_tasks(self):
         """Lists all tasks in the to-do list, including due dates if available."""
@@ -21,14 +43,26 @@ class TodoList:
                     print(f'{idx}. {task}')
 
     def add_task_date(self, task_number, due_date):
-        """Add a due date to a task."""
+        """Adds or updates a due date for a specific task."""
         if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number!")
+            print("Invalid task number! Please enter a valid number.")
         else:
             task = self.tasks[task_number - 1]
-        if type(task) is str:
-            self.tasks[task_number - 1] = (task, due_date)
-            self.tasks[task_number - 1] = f"{due_date}: {task}" 
+            if isinstance(task, str):
+                # Task has no due date, so add one
+                self.tasks[task_number - 1] = (task, due_date)
+            else:
+                # Task already has a due date, so update it
+                task_name, _ = task
+                self.tasks[task_number - 1] = (task_name, due_date)
+            
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
+
+    def update_task(self, task_number, updated_message):
+        """Change the description of a task"""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
         else:
             task_name = task[0]
             self.tasks[task_number - 1] = f"{due_date}: {task_name}" 
@@ -78,9 +112,14 @@ def main():
             elif choice == '2':
                 todo_list.list_tasks()
 
-            elif choice == '3':
+        elif choice == '3':
+            try:
+                todo_list.list_tasks()
                 task_number = int(input("Enter task number to delete: "))
                 todo_list.delete_task(task_number)
+                
+            except ValueError:
+                print("Invalid input! Please enter a valid number.")
 
             elif choice == '4':
                 task_number = int(input("Enter task number to add/update a due date: "))
