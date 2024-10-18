@@ -2,15 +2,20 @@ class TodoList:
     def __init__(self):
         self.tasks = []
 
-    def add_task(self, task):
+    def add_task(self, task, date = None):
         """Adds a new task to the list if it doesn't already exist."""
         task = task.strip()  # Remove any leading/trailing whitespace
         task_number = self.task_exists(task)
         if task_number:
             print(f"Task '{task}' already exists in the list at position {task_number}. Cannot add duplicate tasks.")
-        else:
+            return
+
+        if date == None:
             self.tasks.append(task)
-            print(f'Task added: {task}')
+        else:
+            self.tasks.append((task, date))
+            
+        print(f'Task added: {task}')
 
     def task_exists(self, task):
         """Checks if a task already exists (case insensitive, ignores trailing whitespace). 
