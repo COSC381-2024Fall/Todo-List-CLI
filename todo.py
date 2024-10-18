@@ -26,10 +26,7 @@ class TodoList:
             for idx, task in enumerate(self.tasks, start=1):
                 item = (idx, task)
                 sorted_tasks.append(item)
-                #I think this is where there's an error
-                #when a user adds a due date to a task and then tries to list the tasks alphabetically
-                #results in this error -> TypeError: '<' not supported between instances of 'tuple' and 'str'
-            sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1])
+            sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1] if isinstance(x, str) else x[1][0])
             for idx, task in sorted_tasks:
                 print(f'{idx}. {task}')
 
