@@ -8,10 +8,37 @@ class TodoList:
         """Returns the total number of tasks in the to-do list."""
         return len(self.tasks)
    
-    def add_task(self, task):
-        """Adds a new task to the list."""
-        self.tasks.append(task)
+    def add_task(self, task, date = None):
+        """Adds a new task to the list if it doesn't already exist."""
+        task = task.strip()  # Remove any leading/trailing whitespace
+        task_number = self.task_exists(task)
+        if task_number:
+            print(f"Task '{task}' already exists in the list at position {task_number}. Cannot add duplicate tasks.")
+            return
+
+        if date == None:
+            self.tasks.append(task)
+        else:
+            self.tasks.append((task, date))
+            
         print(f'Task added: {task}')
+
+    def task_exists(self, task):
+        """Checks if a task already exists (case insensitive, ignores trailing whitespace). 
+        Returns the task number if it exists, or None otherwise."""
+        task = task.strip()  # Ensure we ignore leading/trailing whitespace
+
+        for idx, t in enumerate(self.tasks):
+            # If task is a tuple, compare only the task name (ignores due date)
+            if isinstance(t, tuple):
+                task_name = t[0].strip().lower()
+                if task_name == task.lower():
+                    return idx + 1  # Return the 1-based index of the task
+            else:
+                if t.strip().lower() == task.lower():
+                    return idx + 1  # Return the 1-based index of the task
+
+        return None  # Task does not exist
 
     def list_tasks(self):
         """Lists all tasks in the to-do list, including due dates if available."""
@@ -42,6 +69,17 @@ class TodoList:
             
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
+
+    def update_task(self, task_number, updated_message):
+        """Change the description of a task"""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task_name = task[0]
+            self.tasks[task_number - 1] = f"{due_date}: {task_name}" 
+        
+        print(f'Task updated: {self.tasks[task_number - 1]}')
+        
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
@@ -58,7 +96,10 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Show total number of tasks")  # New option
+    print("5. Add/Update a tag to a task")
+    print("6. Delete all tasks")
+    print("7. Edit task description")
+    print("8. Show total number of tasks")  # New option
     print("6. Quit")
 
 
@@ -67,42 +108,67 @@ def main():
     todo_list = TodoList()
 
     while True:
-        print_menu()
-        choice = input("\nEnter your choice (1-5): ")
+        try: 
+            print_menu()
+            choice = input("\nEnter your choice (1-8): ")
 
-        if choice == '1':
-            task = input("Enter the task: ")
-            todo_list.add_task(task)
+            if choice == '1':
+                    task = input("Enter the task: ")
+                    dateBool = input("Would you like to add a due date? 1: Yes 2: No -- ")
+                    if int(dateBool) == 1:
+                        due_date = input("Enter the due date: ")
+                    else:
+                        due_date = ""
+                    todo_list.add_task(task, due_date)
 
-        elif choice == '2':
-            todo_list.list_tasks()
+            elif choice == '2':
+                todo_list.list_tasks()
 
-        elif choice == '3':
-            try:
-                task_number = int(input("Enter task number to delete: "))
-                todo_list.delete_task(task_number)
-            except ValueError:
-                print("Invalid input! Please enter a valid number.")
+            elif choice == '3':
+                try:
+                    todo_list.list_tasks()
+                    task_number = int(input("Enter task number to delete: "))
+                    todo_list.delete_task(task_number)
+                    
+                except ValueError:
+                    print("Invalid input! Please enter a valid number.")
 
-        elif choice == '4':
-            try:
+            elif choice == '4':
                 task_number = int(input("Enter task number to add/update a due date: "))
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
-            except ValueError:
-                print("Invalid input! Please enter a valid number.")
-        
-        elif choice == '5':
-            # New option to show total tasks
+                        
+        #   Add/Update a tag
+            elif choice == '5':
+                task_number = int(input("Enter task number to update: "))
+                tag = input("Enter a tag for the task: ")
+                todo_list.add_tag(task_number, tag)
+
+            elif choice == '6':
+                todo_list.delete_all_tasks()
+
+            elif choice == '7':
+                try:
+                    task_number = int(input("Enter task number to update: "))
+                    desc = input("Enter new task description: ")
+                    todo_list.update_task(task_number, desc)
+                except ValueError:
+                    print("Invalid input! Please enter a number.")    
+
+            elif choice == '8':
+                # New option to show total tasks
             total_tasks = todo_list.get_total_tasks()
             print(f'Total number of tasks: {total_tasks}')
         
         elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
-            break
+                break
 
-        else:
-            print("Invalid choice! Please choose a valid option.")
+            else:
+              print("Invalid choice! Please choose a valid option.")
+
+        except ValueError:
+            print("Invalid input! Please enter a number.")
 
 
 if __name__ == '__main__':
