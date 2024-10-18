@@ -2,78 +2,66 @@ class TodoList:
     def __init__(self):
         self.tasks = []
 
-    def add_task(self, task, date = None):
-        """Adds a new task to the list if it doesn't already exist."""
+    def add_task(self, task, priority, date=None):
+        """Adds a new task with a priority level to the list."""
         task = task.strip()  # Remove any leading/trailing whitespace
         task_number = self.task_exists(task)
         if task_number:
             print(f"Task '{task}' already exists in the list at position {task_number}. Cannot add duplicate tasks.")
             return
 
-        if date == None:
-            self.tasks.append(task)
+        if date is None:
+            self.tasks.append((task, priority))
         else:
-            self.tasks.append((task, date))
-            
-        print(f'Task added: {task}')
+            self.tasks.append((task, priority, date))
 
+        print(f"Task added: {task} with priority '{priority}'")
+             
     def task_exists(self, task):
-        """Checks if a task already exists (case insensitive, ignores trailing whitespace). 
+        """Checks if a task already exists (case insensitive, ignores trailing whitespace).
         Returns the task number if it exists, or None otherwise."""
         task = task.strip()  # Ensure we ignore leading/trailing whitespace
 
         for idx, t in enumerate(self.tasks):
-            # If task is a tuple, compare only the task name (ignores due date)
-            if isinstance(t, tuple):
-                task_name = t[0].strip().lower()
-                if task_name == task.lower():
-                    return idx + 1  # Return the 1-based index of the task
-            else:
-                if t.strip().lower() == task.lower():
-                    return idx + 1  # Return the 1-based index of the task
+            # If task is a tuple, compare only the task name (ignores due date and priority)
+            task_name = t[0].strip().lower()
+            if task_name == task.lower():
+                return idx + 1  # Return the 1-based index of the task
 
         return None  # Task does not exist
 
     def list_tasks(self):
-        """Lists all tasks in the to-do list, including due dates if available."""
+        """Lists all tasks in the to-do list, including due dates and priorities."""
         if not self.tasks:
             print("No tasks in the list!")
         else:
             print("\nCurrent To-Do List:")
             for idx, task in enumerate(self.tasks, start=1):
-                if isinstance(task, tuple):  # Task with due date
-                    task_name, due_date = task
-                    print(f'{idx}. {task_name} (Due: {due_date})')
-                else:  # Task without due date
-                    print(f'{idx}. {task}')
+                task_name, due_date, priority = task
+                if due_date:
+                    print(f'{idx}. {task_name} (Due: {due_date}) [Priority: {priority}]')
+                else:
+                    print(f'{idx}. {task_name} [Priority: {priority}]')
+
 
     def add_task_date(self, task_number, due_date):
         """Adds or updates a due date for a specific task."""
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number! Please enter a valid number.")
         else:
-            task = self.tasks[task_number - 1]
-            if isinstance(task, str):
-                # Task has no due date, so add one
-                self.tasks[task_number - 1] = (task, due_date)
-            else:
-                # Task already has a due date, so update it
-                task_name, _ = task
-                self.tasks[task_number - 1] = (task_name, due_date)
-            
-            print(f'Task updated: {self.tasks[task_number - 1]}')
-
+            task_name, _, priority = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (task_name, due_date, priority)
+            print(f'Task updated with due date: {self.tasks[task_number - 1]}')
 
     def update_task(self, task_number, updated_message):
-        """Change the description of a task"""
+        """Change the description of a task."""
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
-            task_name = task[0]
-            self.tasks[task_number - 1] = f"{due_date}: {task_name}" 
-        
-        print(f'Task updated: {self.tasks[task_number - 1]}')
-        
+            task_name, due_date, priority = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (updated_message, due_date, priority)
+            print(f'Task updated: {self.tasks[task_number - 1]}')
+
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
         if task_number <= 0 or task_number > len(self.tasks):
