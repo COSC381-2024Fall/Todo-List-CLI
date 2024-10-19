@@ -34,13 +34,30 @@ class TodoList:
 
         return None  # Task does not exist
 
-    def list_tasks(self):
-        """Lists all tasks in the to-do list, including due dates if available."""
+    def list_tasks_numeric(self):
+        """Lists all tasks in the to-do list in numerical order, including due dates if available."""
         if not self.tasks:
             print("No tasks in the list!")
         else:
             print("\nCurrent To-Do List:")
             for idx, task in enumerate(self.tasks, start=1):
+                if isinstance(task, tuple):  # Task with due date
+                    task_name, due_date = task
+                    print(f'{idx}. {task_name} (Due: {due_date})')
+                else:  # Task without due date
+                    print(f'{idx}. {task}')
+
+    def list_tasks_alphabetic(self):
+        """ists all tasks in the to-do list in alphabetical order, including due dates if available."""
+        if not self.tasks:
+            print("No tasks in the list!")
+        else:
+            sorted_tasks = []
+            for idx, task in enumerate(self.tasks, start=1):
+                item = (idx, task)
+                sorted_tasks.append(item)
+            sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1] if isinstance(x, str) else x[1][0])
+            for idx, task in sorted_tasks:
                 if isinstance(task, tuple):  # Task with due date
                     task_name, due_date = task
                     print(f'{idx}. {task_name} (Due: {due_date})')
@@ -87,13 +104,14 @@ def print_menu():
     """Prints the menu of options for the user."""
     print("\nTo-Do List CLI App")
     print("1. Add task")
-    print("2. List tasks")
-    print("3. Delete task")
-    print("4. Add/Update a due date to a task")
-    print("5. Add/Update a tag to a task")
-    print("6. Delete all tasks")
-    print("7. Edit task description")
-    print("8. Quit")
+    print("2. List tasks ordered numerically")
+    print("3. List tasks ordered alphabetically")
+    print("4. Delete task")
+    print("5. Add/Update a due date to a task")
+    print("6. Add/Update a tag to a task")
+    print("7. Delete all tasks")
+    print("8. Edit task description")
+    print("9. Quit")
 
 
 def main():
@@ -103,7 +121,7 @@ def main():
     while True:
         try: 
             print_menu()
-            choice = input("\nEnter your choice (1-8): ")
+            choice = input("\nEnter your choice (1-9): ")
 
             if choice == '1':
                     task = input("Enter the task: ")
@@ -115,9 +133,12 @@ def main():
                     todo_list.add_task(task, due_date)
 
             elif choice == '2':
-                todo_list.list_tasks()
-
+                todo_list.list_tasks_numeric()
+            
             elif choice == '3':
+                todo_list.list_tasks_alphabetic()
+
+            elif choice == '4':
                 try:
                     todo_list.list_tasks()
                     task_number = int(input("Enter task number to delete: "))
@@ -126,21 +147,21 @@ def main():
                 except ValueError:
                     print("Invalid input! Please enter a valid number.")
 
-            elif choice == '4':
+            elif choice == '5':
                 task_number = int(input("Enter task number to add/update a due date: "))
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
                 
         #   Add/Update a tag
-            elif choice == '5':
+            elif choice == '6':
                 task_number = int(input("Enter task number to update: "))
                 tag = input("Enter a tag for the task: ")
                 todo_list.add_tag(task_number, tag)
 
-            elif choice == '6':
-                todo_list.delete_all_tasks()
-
             elif choice == '7':
+                todo_list.delete_all_tasks()
+      
+            elif choice == '8':
                 try:
                     task_number = int(input("Enter task number to update: "))
                     desc = input("Enter new task description: ")
@@ -148,12 +169,12 @@ def main():
                 except ValueError:
                     print("Invalid input! Please enter a number.")    
 
-            elif choice == '8':
+            elif choice == '9':
                 print("Exiting To-Do List CLI App. Goodbye!")
                 break
 
             else:
-              print("Invalid choice! Please choose a valid option.")
+                print("Invalid choice! Please choose a valid option.")
 
         except ValueError:
             print("Invalid input! Please enter a number.")
