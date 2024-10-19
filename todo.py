@@ -98,7 +98,10 @@ class TodoList:
         else:
             removed_task = self.tasks.pop(task_number - 1)
             print(f'Task removed: {removed_task}')
-
+            
+    def delete_all_tasks(self):
+        self.tasks = []
+        print("All tasks deleted.")
 
 def print_menu():
     """Prints the menu of options for the user."""
