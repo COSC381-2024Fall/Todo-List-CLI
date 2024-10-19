@@ -132,7 +132,7 @@ def main():
                     if int(dateBool) == 1:
                         due_date = input("Enter the due date: ")
                     else:
-                        due_date = ""
+                        due_date = None
                     todo_list.add_task(task, due_date)
 
             elif choice == '2':
