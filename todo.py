@@ -89,7 +89,7 @@ class TodoList:
             task_name = task[0]
             self.tasks[task_number - 1] = f"{due_date}: {task_name}" 
         
-        print(f'Task updated: {self.tasks[task_number - 1]}')
+            print(f'Task updated: {self.tasks[task_number - 1]}')
         
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
