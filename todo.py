@@ -118,7 +118,7 @@ def print_menu():
     print("7. Delete all tasks")
     print("8. Edit task description")
     print("9. Show total number of tasks")  # New option
-    print("9. Quit")
+    print("10. Quit")
 
 
 def main():
@@ -128,7 +128,7 @@ def main():
     while True:
         try: 
             print_menu()
-            choice = input("\nEnter your choice (1-9): ")
+            choice = input("\nEnter your choice (1-10): ")
 
             if choice == '1':
                     task = input("Enter the task: ")
@@ -181,7 +181,7 @@ def main():
                 total_tasks = todo_list.get_total_tasks()
                 print(f'Total number of tasks: {total_tasks}')
         
-            elif choice == '9':
+            elif choice == '10':
                 print("Exiting To-Do List CLI App. Goodbye!")
                 break
 
