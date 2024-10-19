@@ -200,12 +200,13 @@ def main():
                 # New option to show total tasks
                 total_tasks = todo_list.get_total_tasks()
                 print(f'Total number of tasks: {total_tasks}')
+
             elif choice == '10':
                 try:
                     task_number = int(input("Enter task number to delete due_date: "))
                     todo_list.remove_due_date(task_number)
-                 except ValueError:
-                print("Invalid input! Please enter a number.")
+                except ValueError:
+                    print("Invalid input! Please enter a number.")
         
             elif choice == '11':
                 print("Exiting To-Do List CLI App. Goodbye!")
