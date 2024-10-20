@@ -62,7 +62,7 @@ class TodoList:
             for idx, task in enumerate(self.tasks, start=1):
                 item = (idx, task)
                 sorted_tasks.append(item)
-            sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1] if isinstance(x, str) else x[1][0])
+            sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1][0].lower() if isinstance(x[1], tuple) else x[1].lower())
             for idx, task in sorted_tasks:
                 if isinstance(task, tuple):  # Task with due date
                     task_name, due_date = task
