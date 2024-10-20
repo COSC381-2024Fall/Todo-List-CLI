@@ -31,6 +31,23 @@ class TodoList:
             
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
+    def add_task_delegate(self, task_number, task_delegate):
+        """Delegates a task to someone else."""
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task = self.tasks[task_number - 1]
+            if type(task) is str:
+                task_name = task
+                self.tasks[task_number - 1] = (task, None, task_delegate)
+            else:
+                task_name = task[0]
+            if len(task) == 2:
+                self.tasks[task_number - 1] = (task, task_delegate)
+            else:
+                self.tasks[task_number - 1] = (task_name, task_delegate)
+
+        print(f"Task delegated to {task_delegate}: {self.tasks[task_number - 1]}")
 
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
@@ -47,7 +64,8 @@ def print_menu():
     print("2. List tasks")
     print("3. Delete task")
     print("4. Add/Update a due date to a task")
-    print("5. Quit")
+    print("5. Delegate task to someone else")
+    print("6. Quit")
 
 
 def main():
@@ -55,7 +73,7 @@ def main():
 
     while True:
         print_menu()
-        choice = input("\nEnter your choice (1-5): ")
+        choice = input("\nEnter your choice (1-6): ")
 
         if choice == '1':
             task = input("Enter the task: ")
@@ -79,7 +97,15 @@ def main():
             except ValueError:
                 print("Invalid input! Please enter a number.")
 
-        elif choice == '5':
+        elif choice == "5":
+            try:
+                task_number = int(input("Enter task number to delegate: "))
+                task_delegate = input("Enter the name of the delegate: ")
+                todo_list.add_task_delegate(task_number, task_delegate)
+            except ValueError:
+                print("Invalid input! Please enter a number.")    
+        
+        elif choice == '6':
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
