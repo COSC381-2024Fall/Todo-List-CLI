@@ -285,16 +285,22 @@ def main():
                 except ValueError:
                     print("Invalid input! Please enter a valid number.")
 
-            elif choice == '5':
-                task_number = int(input("Enter task number to add/update a due date: "))
-                due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
-                todo_list.add_task_date(task_number, due_date)
+            elif choice == '5': #Add/Update a due 
+                 if todo_list.get_total_tasks() == 0:
+                     print("No tasks available to update. Please add tasks first.") #Issue 52 no task fix  if there are no tasks entered it prints this
+                 else:
+                     task_number = int(input("Enter task number to add/update a due date: "))
+                     due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
+                     todo_list.add_task_date(task_number, due_date)
                         
         #   Add/Update a tag
             elif choice == '6':
-                task_number = int(input("Enter task number to update: "))
-                tag = input("Enter a tag for the task: ")
-                todo_list.add_tag(task_number, tag)
+                  if todo_list.get_total_tasks() == 0:
+                    print("No tasks available to update. Please add tasks first.") #Issue 52 no task fix, if there are no tasks entered it prints this
+                  else: #If there are tasks
+                    task_number = int(input("Enter task number to update: "))
+                    tag = input("Enter a tag for the task: ")
+                    todo_list.add_tag(task_number, tag)
 
 
 
