@@ -36,10 +36,8 @@ class TodoList:
 
     def list_tasks(self):
         """Lists all tasks in the to-do list, including due dates if available."""
-        
         if not self.tasks:
             print("No tasks in the list!")
-        
         else:
             print("\nCurrent To-Do List:")
             for idx, task in enumerate(self.tasks, start=1):
