@@ -250,7 +250,7 @@ def print_menu():
     print("10. Delete a due date to a task")
     print("11. Delegate task to someone else")
     print("12. Change task name")
-    print("13. Mark Task Complete)
+    print("13. Mark Task Complete")
     print("14. Quit")
 
 
