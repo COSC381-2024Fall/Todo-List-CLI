@@ -88,7 +88,8 @@ class TodoList:
         if not self.tasks:
             print("No tasks in the list!")
         else:
-            sorted_tasks = [] #Although I would review the for loops to make code smaller and faster
+            sorted_tasks = [] 
+            #Although I would review the for loops to make code smaller and faster
             for idx, task in enumerate(self.tasks, start=1):
                 item = (idx, task) 
                 sorted_tasks.append(item)
@@ -242,7 +243,7 @@ def get_user_choice():
     except ValueError:
         print("Invalid input! Please enter a number.")
         return None
-
+#This is my menu
 def print_menu():
     #Prints the menu of options for the user.
     print("\nTo-Do List CLI App")
