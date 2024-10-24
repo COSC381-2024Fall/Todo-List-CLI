@@ -213,7 +213,7 @@ class TodoList:
     #     print(f'Task added: {task}')
 
     def list_tasks(self):
-        """Lists all tasks in the to-do list."""
+        #Lists all tasks in the to-do list.
         if not self.tasks:
             print("No tasks in the list!")
         else:
@@ -222,10 +222,29 @@ class TodoList:
         
         
 
+def get_validated_task_number(todo_list):
+    #Helper function to validate and return a task number from the user.
+    try:
+        task_number = int(input("Enter task number: "))
+        if task_number <= 0 or task_number > todo_list.get_total_tasks():
+            print("Invalid task number! Please enter a valid number.")
+            return None
+        return task_number
+    except ValueError:
+        print("Invalid input! Please enter a number.")
+        return None
 
+def get_user_choice():
+    """Helper function to get and validate user's menu choice."""
+    try:
+        choice = int(input("\nEnter your choice (1-14): "))
+        return choice
+    except ValueError:
+        print("Invalid input! Please enter a number.")
+        return None
 
 def print_menu():
-    """Prints the menu of options for the user."""
+    #Prints the menu of options for the user.
     print("\nTo-Do List CLI App")
     print("1. Add task")
     print("2. List tasks ordered numerically")
@@ -235,130 +254,94 @@ def print_menu():
     print("6. Add/Update a tag to a task")
     print("7. Delete all tasks")
     print("8. Edit task description")
-    print("9. Show total number of tasks")  # New option
+    print("9. Show total number of tasks")
     print("10. Delete a due date to a task")
     print("11. Delegate task to someone else")
     print("12. Change task name")
     print("13. Mark Task Complete")
     print("14. Quit")
 
-
-
-
 def main():
-    """Main function that runs the To-Do List CLI."""
+    #Main function that runs the To-Do List CLI.
     todo_list = TodoList()
 
     while True:
+        print_menu()
+        choice = get_user_choice()
+        if choice is None:
+            continue  # Invalid input, prompt the menu again.
 
-        try: 
-            print_menu()
-            choice = input("\nEnter your choice (1-14): ")
+        if choice == 1:
+            task = input("Enter the task: ").strip()
+            date_choice = input("Would you like to add a due date? (1: Yes, 2: No): ").strip()
+            due_date = input("Enter the due date: ") if date_choice == '1' else None
+            priority = input("Enter the priority (Low/Medium/High): ").strip()
+            todo_list.add_task(task, priority, due_date)
 
+        elif choice == 2:
+            todo_list.list_tasks_numeric()
 
-            if choice == '1':
-                    task = input("Enter the task: ")
-                    dateBool = input("Would you like to add a due date? 1: Yes 2: No -- ")
-                    if int(dateBool) == 1:
-                        due_date = input("Enter the due date: ")
-                    else:
-                        due_date = None
-                    todo_list.add_task(task, due_date)
+        elif choice == 3:
+            todo_list.list_tasks_alphabetic()
 
-            elif choice == '2':
-                try:
-                    todo_list.list_tasks_numeric()
-                except ValueError as e:
-                    print("Its a value errror in 2")
-                    print(e)
+        elif choice == 4:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
+                todo_list.delete_task(task_number)
 
-
-            
-            elif choice == '3':
-                todo_list.list_tasks_alphabetic()
-
-            elif choice == '4':
-                try:
-                    todo_list.list_tasks()
-                    task_number = int(input("Enter task number to delete: "))
-                    todo_list.delete_task(task_number)
-                    
-                except ValueError:
-                    print("Invalid input! Please enter a valid number.")
-
-            elif choice == '5':
-                task_number = int(input("Enter task number to add/update a due date: "))
+        elif choice == 5:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
-                        
-        #   Add/Update a tag
-            elif choice == '6':
-                task_number = int(input("Enter task number to update: "))
+
+        elif choice == 6:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
                 tag = input("Enter a tag for the task: ")
-                todo_list.add_tag(task_number, tag)                                
-           
-            elif choice == '7':
-                todo_list.delete_all_tasks()
+                todo_list.add_tag(task_number, tag)
 
-            elif choice == '8':
-                try:
-                    task_number = int(input("Enter task number to update: "))
-                    desc = input("Enter new task description: ")
-                    todo_list.update_task(task_number, desc)
-                except ValueError:
-                    print("Invalid input! Please enter a number.")    
+        elif choice == 7:
+            todo_list.delete_all_tasks()
 
-            elif choice == '9':
-                print("Exiting To-Do List CLI App. Goodbye!")
-                break
-                
-                # New option to show total tasks
-                total_tasks = todo_list.get_total_tasks()
-                print(f'Total number of tasks: {total_tasks}')
+        elif choice == 8:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
+                desc = input("Enter new task description: ")
+                todo_list.update_task(task_number, desc)
 
-            elif choice == '10':
-                try:
-                    task_number = int(input("Enter task number to delete due_date: "))
-                    todo_list.remove_due_date(task_number)
-                except ValueError:
-                    print("Invalid input! Please enter a number.")
+        elif choice == 9:
+            total_tasks = todo_list.get_total_tasks()
+            print(f'Total number of tasks: {total_tasks}')
 
-        
-            elif choice == "11":
-                try:
-                    task_number = int(input("Enter task number to delegate: "))
-                    task_delegate = input("Enter the name of the delegate: ")
-                    todo_list.add_task_delegate(task_number, task_delegate)
-                except ValueError:
-                    print("Invalid input! Please enter a number.")    
-            
-                    
-            elif choice == '12':
-                task = int(input("Enter task number to update: "))
-                new_task=input("What would you like to update name to: ")
-                todo_list.change_task(task,new_task)
-          
-            #   Mark Completed 
-            elif choice == '13':
-                try:
-                    task_number = int(input("Enter task number to Mark Completed: "))
-                    todo_list.checkoff_task(task_number)
-                except ValueError:
-                    print("Invalid input! Please enter a number.")
-                
-            
-            elif choice == '14':
+        elif choice == 10:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
+                todo_list.remove_due_date(task_number)
 
+        elif choice == 11:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
+                task_delegate = input("Enter the name of the delegate: ")
+                todo_list.add_task_delegate(task_number, task_delegate)
 
-                print("Exiting To-Do List CLI App. Goodbye!")
-                break
+        elif choice == 12:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
+                new_task = input("Enter the new task name: ")
+                todo_list.change_task(task_number, new_task)
 
-            else:
-                  print("Invalid choice! Please choose a valid option.")
+        elif choice == 13:
+            task_number = get_validated_task_number(todo_list)
+            if task_number:
+                todo_list.checkoff_task(task_number)
 
+        elif choice == 14:
+            print("Exiting To-Do List CLI App. Goodbye!")
+            break
 
-        except ValueError:
-            print("Invalid input! Please enter a number.")
+        else:
+            print("Invalid choice! Please choose a valid option.")
 
 if __name__ == '__main__':
     main()
