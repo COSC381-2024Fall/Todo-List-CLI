@@ -82,15 +82,16 @@ class TodoList:
                 else:
                     print(f'{idx}. {task_name} [Priority: {priority}]')
 
-
+    #Good job with implementing this function and listing the list in alphabetical order
     def list_tasks_alphabetic(self):
         """ists all tasks in the to-do list in alphabetical order, including due dates if available."""
         if not self.tasks:
             print("No tasks in the list!")
         else:
-            sorted_tasks = []
+            sorted_tasks = [] 
+            #Although I would review the for loops to make code smaller and faster
             for idx, task in enumerate(self.tasks, start=1):
-                item = (idx, task)
+                item = (idx, task) 
                 sorted_tasks.append(item)
             sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1][0].lower() if isinstance(x[1], tuple) else x[1].lower())
             for idx, task in sorted_tasks:
@@ -235,14 +236,14 @@ def get_validated_task_number(todo_list):
         return None
 
 def get_user_choice():
-    """Helper function to get and validate user's menu choice."""
+    #Helper function to get and validate user's menu choice.
     try:
         choice = int(input("\nEnter your choice (1-14): "))
         return choice
     except ValueError:
         print("Invalid input! Please enter a number.")
         return None
-
+#This is my menu
 def print_menu():
     #Prints the menu of options for the user.
     print("\nTo-Do List CLI App")
