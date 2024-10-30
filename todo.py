@@ -203,12 +203,6 @@ class TodoList:
     def delete_all_tasks(self):
         self.tasks = []
         print("All tasks deleted.")
-        
-        # Overloading is not supported in python, this method overwrites previous
-    # def add_task(self, task):
-    #     """Adds a new task to the list."""
-    #     self.tasks.append(task)
-    #     print(f'Task added: {task}')
 
     def list_tasks(self):
         #Lists all tasks in the to-do list.
