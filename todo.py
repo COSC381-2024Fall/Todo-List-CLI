@@ -79,6 +79,24 @@ class TodoList:
                 else:
                     print(f'{idx}. {task_name} [Priority: {priority}]')
 
+    def list_tasks_by_keyword(self, keyword=""):
+        """Lists all tasks in the to-do list filtered by the provided keyword (case-insensitive)."""
+
+        if not self.tasks:
+            print("No tasks in the list!")
+        else:
+            print(f"\nTasks containing {keyword}:")
+            for idx, task in enumerate(self.tasks, start=1):
+                task_name, due_date, priority = task
+                
+                # Check if the keyword matches the task name (case-insensitive)
+                if keyword.lower() in task_name.lower():
+                    if due_date:
+                        print(f'{idx}. {task_name} (Due: {due_date}) [Priority: {priority}]')
+                    else:
+                        print(f'{idx}. {task_name} [Priority: {priority}]')
+
+
     #Good job with implementing this function and listing the list in alphabetical order
     def list_tasks_alphabetic(self):
         """ists all tasks in the to-do list in alphabetical order, including due dates if available."""
@@ -264,7 +282,7 @@ def get_validated_task_number(todo_list):
 def get_user_choice():
     #Helper function to get and validate user's menu choice.
     try:
-        choice = int(input("\nEnter your choice (1-14): "))
+        choice = int(input("\nEnter your choice (1-15): "))
         return choice
     except ValueError:
         print("Invalid input! Please enter a number.")
@@ -276,17 +294,18 @@ def print_menu():
     print("1. Add task")
     print("2. List tasks ordered numerically")
     print("3. List tasks ordered alphabetically")
-    print("4. Delete task")
-    print("5. Add/Update a due date to a task")
-    print("6. Add/Update a tag to a task")
-    print("7. Delete all tasks")
-    print("8. Edit task description")
-    print("9. Show total number of tasks")
-    print("10. Delete a due date to a task")
-    print("11. Delegate task to someone else")
-    print("12. Change task name")
-    print("13. Mark Task Complete")
-    print("14. Quit")
+    print("4. List tasks by keyword")
+    print("5. Delete task")
+    print("6. Add/Update a due date to a task")
+    print("7. Add/Update a tag to a task")
+    print("8. Delete all tasks")
+    print("9. Edit task description")
+    print("10. Show total number of tasks")
+    print("11. Delete a due date to a task")
+    print("12. Delegate task to someone else")
+    print("13. Change task name")
+    print("14. Mark Task Complete")
+    print("15. Quit")
 
 def main():
     #Main function that runs the To-Do List CLI.
@@ -312,58 +331,62 @@ def main():
             todo_list.list_tasks_alphabetic()
 
         elif choice == 4:
+            searchword = input("Enter the keyword: ").strip()
+            todo_list.list_tasks_by_keyword(keyword=searchword)
+
+        elif choice == 5:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 todo_list.delete_task(task_number)
 
-        elif choice == 5:
+        elif choice == 6:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
 
-        elif choice == 6:
+        elif choice == 7:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 tag = input("Enter a tag for the task: ")
                 todo_list.add_tag(task_number, tag)
 
-        elif choice == 7:
+        elif choice == 8:
             todo_list.delete_all_tasks()
 
-        elif choice == 8:
+        elif choice == 9:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 desc = input("Enter new task description: ")
                 todo_list.update_task(task_number, desc)
 
-        elif choice == 9:
+        elif choice == 10:
             total_tasks = todo_list.get_total_tasks()
             print(f'Total number of tasks: {total_tasks}')
 
-        elif choice == 10:
+        elif choice == 11:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 todo_list.remove_due_date(task_number)
 
-        elif choice == 11:
+        elif choice == 12:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 task_delegate = input("Enter the name of the delegate: ")
                 todo_list.add_task_delegate(task_number, task_delegate)
 
-        elif choice == 12:
+        elif choice == 13:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 new_task = input("Enter the new task name: ")
                 todo_list.change_task(task_number, new_task)
 
-        elif choice == 13:
+        elif choice == 14:
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 todo_list.checkoff_task(task_number)
 
-        elif choice == 14:
+        elif choice == 15:
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
