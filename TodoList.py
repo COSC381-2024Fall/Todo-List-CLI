@@ -4,6 +4,10 @@ class TodoList:
 
     def add_task(self, task, date):
         """Adds a new task to the list."""
+        if not self.tasks:
+            print("No tasks in the list! Please start by listing tasks.")
+            return
+        
         task = (task, date)
         self.tasks.append(task)
         print(f'Task added: {task}')
@@ -18,6 +22,10 @@ class TodoList:
 
     def add_task_date(self, task_number, due_date):
         """Add a due date to a task."""
+        if not self.tasks:
+            print("No tasks in the list to update!")
+            return
+        
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
@@ -31,6 +39,10 @@ class TodoList:
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
     def add_tag(self, task_number, tag):
+        if not self.tasks:
+            print("No tasks in the list to add a tag!")
+            return
+        
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
@@ -45,9 +57,12 @@ class TodoList:
 
             print(f'Task updated: {self.tasks[task_number - 1]}')
 
-
     def delete_task(self, task_number):
         """Deletes a task by its number in the list."""
+        if not self.tasks:
+            print("No tasks in the list to delete!")
+            return
+
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
@@ -56,6 +71,10 @@ class TodoList:
 
     def update_task(self, task_number, updated_message):
         """Change the description of a task"""
+        if not self.tasks:
+            print("No tasks in the list to update!")
+            return
+
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
@@ -68,5 +87,9 @@ class TodoList:
             print("Task updated successfully!")
 
     def delete_all_tasks(self):
-        self.tasks = []
-        print("All tasks deleted.")
+        """Deletes all tasks in the list."""
+        if not self.tasks:
+            print("No tasks to delete.")
+        else:
+            self.tasks = []
+            print("All tasks deleted.")
