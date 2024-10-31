@@ -318,19 +318,31 @@ def main():
             todo_list.list_tasks_alphabetic()
 
         elif choice == 4:
-            task_number = get_validated_task_number(todo_list)
-            if task_number:
-                todo_list.delete_task(task_number)
+            if todo_list.get_total_tasks() == 0:
+                print("No tasks available to update. Please add tasks first.")
+            else:
+                try:
+                    todo_list.list_tasks()
+                    task_number = get_validated_task_number(todo_list)
+                    todo_list.delete_task(task_number)
+                        
+                except ValueError:
+                    print("Invalid input! Please enter a valid number.")
 
-        elif choice == 5:
-            task_number = get_validated_task_number(todo_list)
-            if task_number:
+        elif choice == 5: #Add/Update a due 
+            if todo_list.get_total_tasks() == 0:
+                print("No tasks available to update. Please add tasks first.") #Issue 52 no task fix  if there are no tasks entered it prints this
+            else:
+                task_number = get_validated_task_number(todo_list)
                 due_date = input("Enter a due date for the task (e.g., YYYY-MM-DD): ")
                 todo_list.add_task_date(task_number, due_date)
-
+                        
+        #   Add/Update a tag
         elif choice == 6:
-            task_number = get_validated_task_number(todo_list)
-            if task_number:
+            if todo_list.get_total_tasks() == 0:
+                print("No tasks available to update. Please add tasks first.") #Issue 52 no task fix, if there are no tasks entered it prints this
+            else: #If there are tasks
+                task_number = int(input("Enter task number to update: "))
                 tag = input("Enter a tag for the task: ")
                 todo_list.add_tag(task_number, tag)
 
