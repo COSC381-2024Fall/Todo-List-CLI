@@ -51,7 +51,7 @@ def main():
         if choice is None:
             continue  # Invalid input, prompt the menu again.
 
-        if choice == 1:
+        if choice == 1: # 1. Add task
             task = input("Enter the task: ").strip()
             date_choice = input("Would you like to add a due date? (1: Yes, 2: No): ").strip()
             due_date = input("Enter the due date: ") if date_choice == '1' else None

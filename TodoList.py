@@ -1,9 +1,22 @@
 class TodoList:
+    """A class to store and manage one list of tasks
+    """
     def __init__(self):
+        """initialize an empty list
+        """
         self.tasks = []
 
+        """Task is a 3-tuple (task, priority, date)
+        """
+
     def add_task(self, task, priority = "Medium", date = None):
-        """Adds a new task to the list if it doesn't already exist."""
+        """Adds a new task to the list if it doesn't already exist.
+
+        Args:
+            task (_type_): a string. Leading or trailing whitespace will be removed. Cannot add a duplicate task.
+            priority (str, optional): the priority of the task. Defaults to "Medium".
+            date (_type_, optional): the due date of the task. Defaults to None.
+        """
 
         task = task.strip()  # Remove any leading/trailing whitespace
         task_number = self.task_exists(task)
@@ -11,12 +24,8 @@ class TodoList:
             print(f"Task '{task}' already exists at position {task_number}.")
             return
 
-        if date is None:
-            self.tasks.append((task, priority))
-        else:
-            self.tasks.append((task, priority, date))
-
-        print(f"Task added: {task} with priority '{priority}'")
+        self.tasks.append((task, priority, date))
+        print(f"Task added: {task} with priority '{priority}' and due date: '{date}'")
 
     def list_tasks(self):
         """Lists all tasks in the to-do list."""
@@ -133,7 +142,14 @@ class TodoList:
         return len(self.tasks)
 
     def task_exists(self, task):
-        """Checks if a task already exists. Returns the task number if it exists, or None otherwise."""
+        """Checks if a task already exists. Returns the task number if it exists, or None otherwise.
+
+        Args:
+            task (_type_): a string
+
+        Returns:
+            _type_: None if task does not exist. Int if task exists.
+        """
         task = task.strip()
 
         for idx, t in enumerate(self.tasks):
