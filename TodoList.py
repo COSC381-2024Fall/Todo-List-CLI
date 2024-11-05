@@ -139,8 +139,8 @@ class TodoList:
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
-            task_name, due_date, priority = self.tasks[task_number - 1]
-            self.tasks[task_number - 1] = (updated_message, due_date, priority)
+            task_name, priority, due_date, tags = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (updated_message, priority, due_date, tags)
             print(f'Task updated: {self.tasks[task_number - 1]}')
             
 
