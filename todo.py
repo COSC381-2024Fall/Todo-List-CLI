@@ -37,9 +37,8 @@ def print_menu():
     print("9. Show total number of tasks")
     print("10. Delete a due date to a task")
     print("11. Delegate task to someone else")
-    print("12. Change task name")
-    print("13. Mark Task Complete")
-    print("14. Quit")
+    print("12. Mark Task Complete")
+    print("13. Quit")
 
 def main():
     #Main function that runs the To-Do List CLI.
@@ -105,18 +104,12 @@ def main():
                 task_delegate = input("Enter the name of the delegate: ")
                 todo_list.add_task_delegate(task_number, task_delegate)
 
-        elif choice == 12: # 12. Change task name
-            task_number = get_validated_task_number(todo_list)
-            if task_number:
-                new_task = input("Enter the new task name: ")
-                todo_list.change_task(task_number, new_task)
-
-        elif choice == 13: # 13. Mark Task Complete
+        elif choice == 12: # 12. Mark Task Complete
             task_number = get_validated_task_number(todo_list)
             if task_number:
                 todo_list.checkoff_task(task_number)
 
-        elif choice == 14: # 14. Quit
+        elif choice == 13: # 13. Quit
             print("Exiting To-Do List CLI App. Goodbye!")
             break
 
