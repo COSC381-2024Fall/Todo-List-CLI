@@ -101,15 +101,7 @@ class TodoList:
                 else:  # Task without due date
                     print(f'{idx}. {task}')
 
-    def add_task_date(self, task_number, due_date):
-        """Adds or updates a due date for a specific task."""
-        if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number! Please enter a valid number.")
-        else:
-            task_name, _, priority = self.tasks[task_number - 1]
-            self.tasks[task_number - 1] = (task_name, due_date, priority)
-            print(f'Task updated with due date: {self.tasks[task_number - 1]}')
-
+    
     def add_task_delegate(self, task_number, task_delegate):
         """Delegates a task to someone else."""
         if task_number <= 0 or task_number > len(self.tasks):
@@ -221,24 +213,7 @@ class TodoList:
             for idx, task in enumerate(self.tasks, start=1):
                 print(f'{idx}. {task}')
 
-    def add_task_date(self, task_number, due_date):
-        """Add a due date to a task."""
-        if not self.tasks:
-            print("No tasks in the list to update!")
-            return
-        
-        if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number!")
-        else:
-            task = self.tasks[task_number - 1]
-            if type(task) is str:
-                self.tasks[task_number - 1] = (task, due_date)
-            else:
-                task_name = task[0]
-                self.tasks[task_number - 1] = (task_name, due_date)
-            
-            print(f'Task updated: {self.tasks[task_number - 1]}')
-
+    
     def add_tag(self, task_number, tag):
         if not self.tasks:
             print("No tasks in the list to add a tag!")
@@ -308,10 +283,35 @@ def main():
             continue  # Invalid input, prompt the menu again.
 
         if choice == 1:
+            #Enter task name
             task = input("Enter the task: ").strip()
-            date_choice = input("Would you like to add a due date? (1: Yes, 2: No): ").strip()
-            due_date = input("Enter the due date (YYYY-MM-DD): ") if date_choice == '1' else None
-            priority = input("Enter the priority (Low/Medium/High): ").strip()
+            
+            # Loops until correct choice is given
+            while True:
+                date_choice = input("Would you like to add a due date? (1: Yes, 2: No): ").strip()
+                if date_choice in {'1', '2'}:
+                    break
+                print("Invalid input. Please enter '1' for Yes or '2' for No.")
+            due_date = None
+            if date_choice == '1':
+                #Loops until date is in correct format
+                while True:
+                    due_date = input("Enter the due date (YYYY-MM-DD): ").strip()
+                    try:
+                        #Checks if date is in correct format
+                        datetime.strptime(due_date, "%Y-%m-%d")
+                        break # Exits if format is correct
+                    except ValueError:
+                        print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+
+            # Loops until proper priority is given
+            while True:
+                priority = input("Enter the priority (Low/Medium/High): ").strip().capitalize()
+                if priority in {'Low', 'Medium', 'High'}:
+                    break #Ends loop on correct answer
+                print("Invalid priority. Please enter 'Low', 'Medium', or 'High'.")
+            
+            #Adds task to list
             todo_list.add_task(task, priority, due_date)
 
         elif choice == 2:

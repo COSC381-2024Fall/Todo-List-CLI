@@ -20,24 +20,7 @@ class TodoList:
             for idx, task in enumerate(self.tasks, start=1):
                 print(f'{idx}. {task}')
 
-    def add_task_date(self, task_number, due_date):
-        """Add a due date to a task."""
-        if not self.tasks:
-            print("No tasks in the list to update!")
-            return
-        
-        if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number!")
-        else:
-            task = self.tasks[task_number - 1]
-            if type(task) is str:
-                self.tasks[task_number - 1] = (task, due_date)
-            else:
-                task_name = task[0]
-                self.tasks[task_number - 1] = (task_name, due_date)
-            
-            print(f'Task updated: {self.tasks[task_number - 1]}')
-
+    
     def add_tag(self, task_number, tag):
         if not self.tasks:
             print("No tasks in the list to add a tag!")
