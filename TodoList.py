@@ -6,7 +6,7 @@ class TodoList:
         """
         self.tasks = []
 
-        """Task is a 5-tuple (task, priority, date, tags, delegate)
+        """Task is a 6-tuple (task, priority, date, tags, delegate, completed)
         """
 
     def add_task(self, task, priority = "Medium", date = None):
@@ -24,7 +24,7 @@ class TodoList:
             print(f"Task '{task}' already exists at position {task_number}.")
             return
 
-        self.tasks.append((task, priority, date, [], None))
+        self.tasks.append((task, priority, date, [], None, False))
         print(f"Task added: {task} with priority '{priority}' and due date: '{date}'")
 
     def list_tasks(self):
@@ -44,7 +44,7 @@ class TodoList:
         else:
             print("\nCurrent To-Do List:")
             for idx, task in enumerate(self.tasks, start=1):
-                task_name, priority, due_date, _, _ = task
+                task_name, priority, due_date, _, _, _ = task
                 if due_date:
                     print(f'{idx}. {task_name} (Due: {due_date}) [Priority: {priority}]')
                 else:
@@ -66,7 +66,7 @@ class TodoList:
             sorted_tasks = sorted(sorted_tasks, key=lambda x: x[1][0].lower() if isinstance(x[1], tuple) else x[1].lower())
             for idx, task in sorted_tasks:
                 if isinstance(task, tuple):  # Task with due date
-                    task_name, priority, due_date, _, _ = task
+                    task_name, priority, due_date, _, _, _ = task
                     if due_date:
                         print(f'{idx}. {task_name} (Due: {due_date}) [Priority: {priority}]')
                     else:
@@ -107,8 +107,8 @@ class TodoList:
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
-            task_name, priority, _, tags, delegate = self.tasks[task_number - 1]
-            self.tasks[task_number - 1] = (task_name, priority, due_date, tags, delegate)
+            task_name, priority, _, tags, delegate, completed = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (task_name, priority, due_date, tags, delegate, completed)
             print(f'Task updated with due date: {self.tasks[task_number - 1]}')
             
 
@@ -122,7 +122,7 @@ class TodoList:
         else:
             task = self.tasks[task_number - 1]
             if type(task) is tuple:
-                task_name, priority, due_date, tags, delegate = task
+                task_name, priority, due_date, tags, delegate, _ = task
                 tags.append(tag)
                 print(f'Task updated: {self.tasks[task_number - 1]}')
             else:
@@ -139,8 +139,8 @@ class TodoList:
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
-            task_name, priority, due_date, tags, delegate = self.tasks[task_number - 1]
-            self.tasks[task_number - 1] = (updated_message, priority, due_date, tags, delegate)
+            task_name, priority, due_date, tags, delegate, completed = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (updated_message, priority, due_date, tags, delegate, completed)
             print(f'Task updated: {self.tasks[task_number - 1]}')
             
 
@@ -163,10 +163,10 @@ class TodoList:
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
-            task_name, priority, due_date, tags, delegate = self.tasks[task_number - 1]
+            task_name, priority, due_date, tags, delegate, completed = self.tasks[task_number - 1]
             if due_date is not None:  # Check if the task has a due date
                 # Remove due date by converting it back to a string
-                self.tasks[task_number - 1] = (task_name, priority, None, tags, delegate)
+                self.tasks[task_number - 1] = (task_name, priority, None, tags, delegate, completed)
                 print(f'Due date removed from task: {task_name}')
             else:
                 print("This task doesn't have a due date.")                
@@ -176,10 +176,10 @@ class TodoList:
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
         else:
-            task_name, priority, due_date, tags, delegate = self.tasks[task_number - 1]
-            self.tasks[task_number - 1] = (task_name, priority, due_date, tags, task_delegate)
-
-        print(f"Task delegated to {task_delegate}: {self.tasks[task_number - 1]}")
+            task_name, priority, due_date, tags, delegate, completed = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (task_name, priority, due_date, tags, task_delegate, completed)
+            print(f"Task delegated to {task_delegate}: {self.tasks[task_number - 1]}")
+        
 
     def task_exists(self, task):
         """Checks if a task already exists. Returns the task number if it exists, or None otherwise.
@@ -205,11 +205,6 @@ class TodoList:
         if task_number <= 0 or task_number > len(self.tasks): 
             print("Invalid task number!")
         else:
-            task = self.tasks[task_number - 1]
-            if type(task) is str:
-                self.tasks[task_number - 1] = (task, "completed") # Replace the task with a tuple (task name, "completed") to mark it as completed
-            else:
-                # If the task already has a due date, preserve the task name
-                task_name = task[0]
-                self.tasks[task_number - 1] = (task_name, "completed")
-                
+            task_name, priority, due_date, tags, delegate, completed = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = (task_name, priority, due_date, tags, delegate, True)
+            print(f'Task updated: {self.tasks[task_number - 1]}')

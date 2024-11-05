@@ -17,7 +17,7 @@ def get_validated_task_number(todo_list):
 def get_user_choice():
     #Helper function to get and validate user's menu choice.
     try:
-        choice = int(input("\nEnter your choice (1-14): "))
+        choice = int(input("\nEnter your choice (1-13): "))
         return choice
     except ValueError:
         print("Invalid input! Please enter a number.")
