@@ -6,7 +6,7 @@ class TodoList:
         """
         self.tasks = []
 
-        """Task is a 3-tuple (task, priority, date, tags)
+        """Task is a 4-tuple (task, priority, date, tags)
         """
 
     def add_task(self, task, priority = "Medium", date = None):
@@ -157,6 +157,20 @@ class TodoList:
         """Returns the total number of tasks in the to-do list."""
         return len(self.tasks)
 
+    def remove_due_date(self, task_number):
+        """Removes the due date from a task."""
+
+        if task_number <= 0 or task_number > len(self.tasks):
+            print("Invalid task number!")
+        else:
+            task_name, priority, due_date, tags = self.tasks[task_number - 1]
+            if due_date is not None:  # Check if the task has a due date
+                # Remove due date by converting it back to a string
+                self.tasks[task_number - 1] = (task_name, priority, None, tags)
+                print(f'Due date removed from task: {task_name}')
+            else:
+                print("This task doesn't have a due date.")                
+
     def task_exists(self, task):
         """Checks if a task already exists. Returns the task number if it exists, or None otherwise.
 
@@ -206,29 +220,4 @@ class TodoList:
                 # If the task already has a due date, preserve the task name
                 task_name = task[0]
                 self.tasks[task_number - 1] = (task_name, "completed")
-            
-    def remove_due_date(self, task_number):
-        """Removes the due date from a task."""
-
-        if task_number <= 0 or task_number > len(self.tasks):
-            print("Invalid task number!")
-        else:
-            task = self.tasks[task_number - 1]
-
-
-            if type(task) is str:
-                self.tasks[task_number - 1] = (new_task)
-            else:
-                task_name = task[0]
-                self.tasks[task_number - 1] = (new_task)
-            
-            print(f'Task updated: {self.tasks[task_number - 1]}')
-
-
-            if type(task) is tuple:  # Check if the task has a due date (stored as a tuple)
-               task_name = task[0]
-               self.tasks[task_number - 1] = task_name  # Remove due date by converting it back to a string
-               print(f'Due date removed from task: {task_name}')
-            else:
-                print("This task doesn't have a due date.")
                 
