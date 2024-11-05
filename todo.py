@@ -1,6 +1,6 @@
 # todo.py
-from TodoList import TodoList 
-
+from TodoList import TodoList
+from datetime import datetime
 
 def get_validated_task_number(todo_list):
     #Helper function to validate and return a task number from the user.
@@ -52,9 +52,33 @@ def main():
 
         if choice == 1: # 1. Add task
             task = input("Enter the task: ").strip()
-            date_choice = input("Would you like to add a due date? (1: Yes, 2: No): ").strip()
-            due_date = input("Enter the due date: ") if date_choice == '1' else None
-            priority = input("Enter the priority (Low/Medium/High): ").strip()
+            
+            # Loops until correct choice is given
+            while True:
+                date_choice = input("Would you like to add a due date? (1: Yes, 2: No): ").strip()
+                if date_choice in {'1', '2'}:
+                    break
+                print("Invalid input. Please enter '1' for Yes or '2' for No.")
+            due_date = None
+            if date_choice == '1':
+                #Loops until date is in correct format
+                while True:
+                    due_date = input("Enter the due date (YYYY-MM-DD): ").strip()
+                    try:
+                        #Checks if date is in correct format
+                        datetime.strptime(due_date, "%Y-%m-%d")
+                        break # Exits if format is correct
+                    except ValueError:
+                        print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+
+            # Loops until proper priority is given
+            while True:
+                priority = input("Enter the priority (Low/Medium/High): ").strip().capitalize()
+                if priority in {'Low', 'Medium', 'High'}:
+                    break #Ends loop on correct answer
+                print("Invalid priority. Please enter 'Low', 'Medium', or 'High'.")
+            
+            #Adds task to list
             todo_list.add_task(task, priority, due_date)
 
         elif choice == 2: # 2. List tasks ordered numerically
