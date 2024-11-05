@@ -22,11 +22,20 @@ This project is a command-line to-do list manager, where users can add, view, an
 ### Usage
 Once the app is running, you will see a simple menu with the following options:
 
-1. Add task: Adds a new task to your to-do list.
-2. List tasks: Displays all the tasks you have added.
-3. Delete task: Deletes a task by its number from the list.
-4. Add/Update a due date to a task: Add or update a due date for a task.
-5. Quit: Exits the app.
+To-Do List CLI App
+1. Add task
+2. List tasks ordered numerically
+3. List tasks ordered alphabetically
+4. Delete task
+5. Add/Update a due date to a task
+6. Add/Update a tag to a task
+7. Delete all tasks
+8. Edit task description
+9. Show total number of tasks
+10. Delete a due date to a task
+11. Delegate task to someone else
+12. Mark Task Complete
+13. Quit
 
 ## Contributing
 Please contribute by fixing bugs, adding features, or improving documentation! Make sure to follow **the GitHub Flow** in the handout!
