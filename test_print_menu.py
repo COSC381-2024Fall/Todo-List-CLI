@@ -42,7 +42,8 @@ def numbered_tasks():
 
 @fixture
 def entire_menu():
-    return f'\n{'\n'.join(menu_tasks_numbered)}\n'
+    inner = '\n'.join(menu_tasks_numbered)
+    return f'\n{inner}\n'
 
 
 
