@@ -18,7 +18,7 @@ def get_user_choice():
     #Helper function to get and validate user's menu choice.
     try:
         choice = int(input("\nEnter your choice (1-13): "))
-        if choice < 1 | choice > 13:
+        if choice < 1 or choice > 13:
             return None
         return choice
     except ValueError:
