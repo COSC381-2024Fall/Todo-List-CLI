@@ -56,7 +56,7 @@ def two_task_todolist_ooo(gym_task, grocery_task):
 @fixture
 def two_task_todolist_non_english(gym_task2, grocery_task):
     todo_list = TodoList()
-    todo_list.tasks = [gym_task, grocery_task]
+    todo_list.tasks = [gym_task2, grocery_task]
     return todo_list
 
 @fixture
