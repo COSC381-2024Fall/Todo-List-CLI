@@ -58,6 +58,7 @@ def test_numbers_only(tasks_count, capfd):
 
     assert str(tasks_count) not in out, f"New Task No.{tasks_count}, update test_print_menu accordingly"
     assert tasks_count == len(out.strip().split('\n')), f"Unexpected number of lines, perhaps a new tasks or multi-line task?"
+    assert False
 
 def test_naked_tasks(naked_tasks, capfd):
     print_menu()
