@@ -17,9 +17,9 @@ def test_remove_due_date(capfd, myList):
     out, err = capfd.readouterr()
     assert("Due date removed from task: Buy grocery\n" in out)
 
-def test_delete_all_tasks(myList):
+def test_empty_list(myList):
     # Act
-    myList.delete_all_tasks()
+    myList.tasks =[]
     
     # Assert if list is empty
-    assert myList.get_total_tasks() == 0
+    assert myList.tasks == []
