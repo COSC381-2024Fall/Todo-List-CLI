@@ -136,4 +136,12 @@ def test_large_task_list_deletion(homework_task):
     todo_list.delete_all_tasks()
     assert todo_list.tasks == []
 
-
+def test_delete_with_new_task_added(homework_task, two_task_list, capsys):
+    two_task_list.delete_all_tasks()  # Delete all tasks
+    captured = capsys.readouterr()
+    assert captured.out == "All tasks deleted.\n"
+    assert two_task_list.tasks == []
+    
+    # Add a new task after deletion
+    two_task_list.add_task(homework_task)
+    assert two_task_list.get_total_tasks() == 1  # Ensure the task was added correctly
