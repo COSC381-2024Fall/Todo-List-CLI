@@ -184,6 +184,12 @@ class TodoList:
         """Delegates a task to someone else."""
         if task_number <= 0 or task_number > len(self.tasks):
             print("Invalid task number!")
+            return
+
+        if not task_delegate.isalnum() or not task_delegate:
+            print("Invalid delegate")
+            return
+
         else:
             task_name, priority, due_date, tags, delegate, completed = self.tasks[task_number - 1]
             self.tasks[task_number - 1] = (task_name, priority, due_date, tags, task_delegate, completed)

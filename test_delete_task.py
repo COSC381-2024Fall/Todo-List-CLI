@@ -1,74 +1,51 @@
-#import pytest
 from pytest import fixture
-from todo import TodoList
+from TodoList import TodoList
 
 @fixture
-def empty_todolist():
-    return TodoList()
+def task1():
+    return ("Buy grocery", "Medium", "2024-12-2", [], None, False)
 
 @fixture
-def myList():
-    myList=TodoList()
-    myList.tasks = [("Buy grocery"), ("Run errands"), ("Die")]
+def task2():
+    return ("Turn in Lab", "High", "2024-12-3", [], None, False)
+
+@fixture
+def myList(task1, task2):
+    myList = TodoList()
+    myList.tasks = [task1, task2]
     return myList
 
-def test_delete_task(myList, capfd):
-    # Arrange
+@fixture
+def myEmptyList():
+    myList = TodoList()
+    return myList
 
-
-    # Act
-    myList.delete_task(2)
-
+def test_normal_deleting_task(capfd, myList):
+    #Arrange
+    
+    #Act
+    myList.delete_task(1)
     #Assert
     out, err = capfd.readouterr()
-    assert("Run errands" in out)
+    assert(len(myList.tasks)==1)
+    assert("Buy grocery" in out)
+    assert("Medium" in out)
+    assert("2024-12-2" in out)
 
-
-def test_empty_todolist(empty_todolist, capfd):
+def test_empty_list_delete(capfd, myEmptyList):
     #Arrange
-
+    
     #Act
-    empty_todolist.delete_task(1)
-
+    myEmptyList.delete_task(1)
     #Assert
     out, err = capfd.readouterr()
     assert("No tasks in the list to delete!" in out)
 
-def test_number_outof_range(myList, capfd):
+def test_out_of_range_delete(capfd, myList):
+    #Arrange
+    
     #Act
-    myList.delete_task(4)
-
-
+    myList.delete_task(3)
     #Assert
     out, err = capfd.readouterr()
     assert("Invalid task number!" in out)
-
-def test_task_deletion(myList):
-    #Arrange
-
-
-    #Act
-    initial_count = len(myList.tasks)
-    myList.delete_task(3)
-
-
-    #Assert
-    assert(len(myList.tasks)) == initial_count - 1
-    
-
-def test_multiple_task_deletion(myList, capfd):
-    #Arrange
-
-
-
-    #Act
-    initial_count = len(myList.tasks)
-    myList.delete_task(1)
-    myList.delete_task(1)
-    myList.delete_task(1)
-
-
-
-    #Assert
-    out, err = capfd.readouterr()
-    assert(len(myList.tasks)) == initial_count - initial_count
