@@ -2,7 +2,9 @@ from todo import TodoList
 from pytest import fixture
 from unittest.mock import patch
 
-#we need minimal tests for adding, since there are other test files for them. 
+
+
+# we need minimal tests for adding, since there are other test files for them. 
 #i think testing a normal task, and an empty one would be sufficient, update:
 #added another task for the 2 task list as it checks for duplicates
 @fixture 
