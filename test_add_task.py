@@ -38,6 +38,23 @@ def one_task_todolist(grocery_task):
     todo_list = TodoList()
     todo_list.tasks = [grocery_task]
 
+#added by Maryam, lines 41-57
+@fixture
+def complete_lab():
+    return("COSC381 Test Lab", "High", "2024-11-8", ["school"], "Maryam", False)
+@fixture
+def everything_empty():
+    return("", "", "", None, "", None)
+@fixture
+def no_task_name():
+    return("", "Low", "2024-11-10", ["work"], "someone", True)
+@fixture
+def incorrect_date_format():
+    return("Due Date", "Monday", ["school"], "student", False)
+@fixture
+def missing_completed():
+    return("Take Exam", "2024-11-11", ["school"], "students")
+
 ## Functional Tests (Basic Cases)
 def test_add_a_task(empty_todolist, capfd):
     """Test add a task to an empty todo list
@@ -82,3 +99,66 @@ def test_leading_whitespace(empty_todolist):
 
     ###
     ### Edge cases: add 1000 tasks, 10k, 100k
+
+# Added by Maryam, lines 102-164
+# ChatGPT was used in some of the following tests
+
+def test_add_1000_tasks(empty_todolist):
+    #Arrange
+    
+    #Act
+    #ChatGPT helped with range()
+    for i in range(1000):
+        task = f"Task {i}"
+        empty_todolist.add_task(task)
+    
+    #Assert
+    #ChatGPT helped with the following line
+    assert(len(empty_todolist.tasks) == 1000)
+
+    #Cleanup
+
+#currently fails because the code allows for a task with empty name to be added
+#debugged with ChatGPT, I was testing == 1 first instead of == 0
+# def test_add_task_no_name(empty_todolist):
+#     #Arrange
+
+#     #Act
+#     empty_todolist.add_task("")
+
+#     #Assert
+#     assert(len(empty_todolist.tasks) == 0) #Doesn't add it
+
+def test_default_medium(empty_todolist, capfd):
+    # #Arrange
+    task = "Test"
+
+    #Act
+    empty_todolist.add_task(task)
+
+    #Assert
+    task_description, priority, due_date, tags, delegate, complete = empty_todolist.tasks[0]
+    assert(priority == "Medium")
+    
+def test_add_duplicate(empty_todolist):
+    #Arrange
+    task1 = "Test"
+    task2 = "Test"
+
+    #Arrange
+    empty_todolist.add_task(task1)
+    empty_todolist.add_task(task2)
+
+    #Assert
+    assert(len(empty_todolist.tasks) == 1)
+
+#used ChatGPT
+def test_priority_set(empty_todolist, capfd):
+    #Arrange
+
+    #Act
+    empty_todolist.add_task("task", "To Do")
+    out, err = capfd.readouterr()
+
+    #Assert
+    assert("None" in out) #tests that priority is set to None when the user tries to input an incorrect priority 
