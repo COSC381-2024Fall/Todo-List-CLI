@@ -2,7 +2,9 @@ from todo import TodoList
 from pytest import fixture
 from unittest.mock import patch
 
-#we need minimal tests for adding, since there are other test files for them. 
+
+
+# we need minimal tests for adding, since there are other test files for them. 
 #i think testing a normal task, and an empty one would be sufficient, update:
 #added another task for the 2 task list as it checks for duplicates
 @fixture 
@@ -134,4 +136,12 @@ def test_large_task_list_deletion(homework_task):
     todo_list.delete_all_tasks()
     assert todo_list.tasks == []
 
-
+def test_delete_with_new_task_added(homework_task, two_task_list, capsys):
+    two_task_list.delete_all_tasks()  # Delete all tasks
+    captured = capsys.readouterr()
+    assert captured.out == "All tasks deleted.\n"
+    assert two_task_list.tasks == []
+    
+    # Add a new task after deletion
+    two_task_list.add_task(homework_task)
+    assert two_task_list.get_total_tasks() == 1  # Ensure the task was added correctly
