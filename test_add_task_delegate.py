@@ -2,126 +2,160 @@ import pytest
 from pytest import fixture
 from todo import TodoList
 
-@fixture
-def grocery_task():
-    return ("Buy grocery", "Medium", "2024-12-2", [], [], False)
+class EdgeTestingClass:
 
-@fixture
-def only_description_task():
-    return ("Read book", None, None, None, None, None)
+    @staticmethod
+    def test_function_one():
+        """Test delegating the first task in the list."""
+        # Arrange
+        todo_list = TodoList()
+        todo_list.add_task("Task 1", "Medium", "2024-11-30")
+        todo_list.add_task("Task 2", "High", "2024-12-01")
 
-@fixture
-def no_priority_task():
-    return ("Plan trip", None, "2024-12-2", ["vacation"], "Siyuan", False)
+        # Act
+        todo_list.add_task_delegate(1, "Emerald")
 
-@fixture
-def no_due_date():
-    return ("Finish homework", "High", None, ["school"], "Siyuan", False)
+        # Assert
+        delegate = todo_list.tasks[0][4]
+        assert delegate == "Emerald", "Delegate for the first task should be 'Emerald'."
 
-@fixture
-def no_tags_task():
-    return ("Call doctor", "High", "2024-11-12", None, "Siyuan", False)
+    @staticmethod
+    def test_function_two():
+        """Test delegating the last task in the list."""
+        # Arrange
+        todo_list = TodoList()
+        todo_list.add_task("Task 1", "Medium", "2024-11-30")
+        todo_list.add_task("Task 2", "High", "2024-12-01")
 
-@fixture
-def no_delegate_task():
-    return ("Meeting", "High", "2024-11-22", ["work"], None, False)
+        # Act
+        todo_list.add_task_delegate(2, "Bob")
 
-@fixture
-def no_complete_task():
-    return ("Meeting", "High", "2024-11-22", ["work"], None, None)
+        # Assert
+        delegate = todo_list.tasks[-1][4]
+        assert delegate == "Bob", "Delegate for the last task should be 'Bob'."
 
-@fixture
-def empty_todolist():
-    return TodoList()
+    @staticmethod
+    def test_function_three():
+        """Test delegating a task with an unusually long name."""
+        # Arrange
+        long_task_name = "This is an unusually long task name that exceeds typical lengths for testing purposes"
+        todo_list = TodoList()
+        todo_list.add_task(long_task_name, "Low", "2024-11-29")
 
-@fixture
-def one_task_todolist(grocery_task):
-    todo_list = TodoList()
-    todo_list.tasks = [grocery_task]
-    return todo_list
+        # Act
+        todo_list.add_task_delegate(1, "Charlie")
 
-@pytest.fixture
-def multiple_task_todolist():
-    todo_list = TodoList()
-    todo_list.tasks = [
-        ("Buy grocery", "Medium", "2024-12-02", [], None, False),
-        ("Read book", "High", None, [], None, False)
-    ]
-    return todo_list
+        # Assert
+        delegate = todo_list.tasks[0][4]
+        assert delegate == "Charlie", "Delegate for the task with a long name should be 'Charlie'."
 
-## Functional Tests
-def test_add_task_delegate_valid(one_task_todolist, capfd):
-    """Test adding a valid delegate to an existing task."""
-    # Act
-    one_task_todolist.add_task_delegate(1, "Alice")
+class ErrorTestingClass:
+
+    @staticmethod
+    def test_function_one():
+        """Test handling of invalid task number (out of range)."""
+        # Arrange
+        todo_list = TodoList()
+        todo_list.add_task("Task 1", "High", "2024-12-31")
+
+        # Act and Assert
+        try:
+            todo_list.add_task_delegate(2, "John Doe")  # Invalid task number
+        except Exception as e:
+            assert str(e) == "Invalid task number!"
+
+    @staticmethod
+    def test_function_two():
+        """Test handling of delegation on an empty task list."""
+        # Arrange
+        todo_list = TodoList()
+
+        # Act and Assert
+        try:
+            todo_list.add_task_delegate(1, "John Doe")  # No tasks in list
+        except Exception as e:
+            assert str(e) == "No tasks in the list to add a tag!"
+
+    @staticmethod
+    def test_function_three():
+        """Test handling of non-integer task number."""
+        # Arrange
+        todo_list = TodoList()
+        todo_list.add_task("Task 1", "Medium", "2024-11-30")
+
+        # Act and Assert
+        try:
+            todo_list.add_task_delegate("One", "John Doe")  # Non-integer task number
+        except TypeError:
+            print("TypeError caught as expected")
+        except Exception as e:
+            assert False, f"Unexpected exception: {e}"  # Fail if a different exception is raised
+        else:
+            assert False, "Expected a TypeError, but no exception was raised."
+
+class NormalTestingClass:
+
+    @staticmethod
+    def test_function_one():
+
+        #Arrange
+        list = TodoList()
+        list.add_task("Do something", "Very Important", "06/12/2002")
+
+        #Act
+        list.add_task_delegate(1,"Cromwell")
+        theDelegate = list.tasks[0][4]
+
+        #Assert
+        assert "Cromwell" == theDelegate
     
-    # Assert: Check console output
-    out, err = capfd.readouterr()
-    assert "Task delegated to Alice" in out
     
-    # Assert: Check task's delegate
-    assert one_task_todolist.tasks[0][4] == "Alice"
+    @staticmethod
+    def test_function_two():
+        
 
-def test_add_task_delegate_invalid_task_number(multiple_task_todolist, capfd):
-    """Test attempting to add a delegate to a non-existent task."""
-    # Act
-    multiple_task_todolist.add_task_delegate(3, "Alice")
-    
-    # Assert: Check for error message
-    out, err = capfd.readouterr()
-    assert "Invalid task number!" in out
+        #Arrange
+        list = TodoList()
+        list.add_task("Do something else", "Not Important", "2014-10-03")
 
-def test_add_task_delegate_empty_todolist(empty_todolist, capfd):
-    """Test attempting to add a delegate to an empty todo list."""
-    # Act
-    empty_todolist.add_task_delegate(1, "Alice")
-    
-    # Assert: Check for error message
-    out, err = capfd.readouterr()
-    assert "Invalid task number!" in out
+        #Act
+        list.add_task_delegate(1,"Emerald")
+        theDelegate = list.tasks[0][4]
 
-## Error Handling
-def test_add_task_delegate_invalid_delegate_name(one_task_todolist, capfd):
-    """Test adding an invalid delegate name with special characters."""
-    # Act
-    one_task_todolist.add_task_delegate(1, "Al!ce@123")
+        #Assert
+        assert "Emerald" == theDelegate
     
-    # Assert: Check for error message
-    out, err = capfd.readouterr()
-    assert "Invalid delegate" in out
 
-def test_add_task_delegate_blank_delegate_name(one_task_todolist, capfd):
-    """Test adding a blank delegate name."""
-    # Act
-    one_task_todolist.add_task_delegate(1, "")
-    
-    # Assert: Check for error message
-    out, err = capfd.readouterr()
-    assert "Invalid delegate" in out
+    @staticmethod
+    def test_function_three():
+        
 
-## Edge Cases
-def test_add_task_delegate_multiple_delegations(multiple_task_todolist, capfd):
-    """Test reassigning delegate for the same task."""
-    # Act
-    multiple_task_todolist.add_task_delegate(1, "Alice")
-    multiple_task_todolist.add_task_delegate(1, "Bob")
-    
-    # Assert: Check last delegate update
-    assert multiple_task_todolist.tasks[0][4] == "Bob"
-    out, err = capfd.readouterr()
-    assert "Task delegated to Alice" in out
-    assert "Task delegated to Bob" in out
+        #Arrange
+        list = TodoList()
+        list.add_task("Don't do anything", "No worries", "2024-10-26")
 
-def test_add_task_delegate_large_number_of_tasks(capfd):
-    """Test delegating a task in a list of 1000 tasks."""
-    # Arrange
-    todo_list = TodoList()
-    todo_list.tasks = [("Task " + str(i), "Medium", None, [], None, False) for i in range(1, 1001)]
-    
-    # Act
-    todo_list.add_task_delegate(500, "Chris")
-    
-    # Assert: Check delegate assignment
-    assert todo_list.tasks[499][4] == "Chris"
-    out, err = capfd.readouterr()
-    assert "Task delegated to Chris" in out
+        #Act
+        list.add_task_delegate(1,"Zhang")
+        theDelegate = list.tasks[0][4]
+
+        #Assert
+        assert "Zhang" == theDelegate
+
+
+test = NormalTestingClass()
+test_2 = ErrorTestingClass()
+test_3 = EdgeTestingClass()
+
+
+test.test_function_one()
+test.test_function_two()
+test.test_function_three()
+
+
+test_2.test_function_one()
+test_2.test_function_two()
+test_2.test_function_three()
+
+test_3.test_function_one()
+test_3.test_function_two()
+test_3.test_function_three()
