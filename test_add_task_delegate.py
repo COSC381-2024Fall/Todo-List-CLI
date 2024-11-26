@@ -109,6 +109,7 @@ class NormalTestingClass:
         #Assert
         assert "Cromwell" == theDelegate
     
+    
     @staticmethod
     def test_function_two():
         
@@ -124,6 +125,7 @@ class NormalTestingClass:
         #Assert
         assert "Emerald" == theDelegate
     
+
     @staticmethod
     def test_function_three():
         
